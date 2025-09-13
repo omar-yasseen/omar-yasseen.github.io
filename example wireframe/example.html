@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Watch Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Simple fade-in animation for smoother transitions */
+       .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Custom styles for the luxury feel */
+        body {
+            font-family: 'Inter', sans-serif; /* A clean, modern font */
+        }
+       .btn-gold {
+            @apply bg-amber-400 text-slate-900 font-bold hover:bg-amber-300 transition-colors;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-900 text-slate-200 flex items-center justify-center min-h-screen">
+
+    <div id="app-container" class="w-full max-w-sm mx-auto bg-slate-800 rounded-xl shadow-2xl overflow-hidden">
+        
+        <header class="p-4 bg-slate-900 border-b border-slate-700 flex items-center justify-between">
+            <h1 class="text-xl font-bold text-amber-400" style="font-family: 'Playfair Display', serif;">Horlogerie Services</h1>
+            <button id="back-button" class="text-slate-400 hover:text-white transition-colors hidden">&larr; Back</button>
+        </header>
+
+        <main class="p-6">
+            <section id="brand-selection" class="fade-in">
+                <h2 class="text-2xl font-bold text-center mb-6">Select Your Timepiece Brand</h2>
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div onclick="selectBrand('Rolex')" class="bg-slate-700 p-4 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="h-16 flex items-center justify-center text-3xl">♛</div> 
+                        <p class="mt-2 font-semibold">Rolex</p>
+                    </div>
+                    <div onclick="selectBrand('Audemars Piguet')" class="bg-slate-700 p-4 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="h-16 flex items-center justify-center font-bold text-lg">AP</div>
+                        <p class="mt-2 font-semibold">Audemars Piguet</p>
+                    </div>
+                    <div onclick="selectBrand('Hublot')" class="bg-slate-700 p-4 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="h-16 flex items-center justify-center font-bold text-2xl">H</div>
+                        <p class="mt-2 font-semibold">Hublot</p>
+                    </div>
+                    <div onclick="selectBrand('Omega')" class="bg-slate-700 p-4 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="h-16 flex items-center justify-center text-3xl">Ω</div>
+                        <p class="mt-2 font-semibold">Omega</p>
+                    </div>
+                     <div onclick="selectBrand('Patek Philippe')" class="bg-slate-700 p-4 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="h-16 flex items-center justify-center font-bold text-lg">PP</div>
+                        <p class="mt-2 font-semibold">Patek Philippe</p>
+                    </div>
+                     <div onclick="selectBrand('Breitling')" class="bg-slate-700 p-4 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="h-16 flex items-center justify-center font-bold text-2xl">B</div>
+                        <p class="mt-2 font-semibold">Breitling</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="service-selection" class="hidden">
+                <h2 id="service-title" class="text-2xl font-bold text-center mb-6"></h2>
+                <div class="space-y-4">
+                    <button onclick="selectService('Case/Bracelet Polishing')" class="w-full text-left p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors font-semibold">Case/Bracelet Polishing</button>
+                    <button onclick="selectService('Water Resistance Restoration')" class="w-full text-left p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors font-semibold">Water Resistance Restoration</button>
+                    <button onclick="selectService('Rusted Watch Overhaul')" class="w-full text-left p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors font-semibold">Rusted Watch Overhaul</button>
+                    <button onclick="selectService('Routine Servicing')" class="w-full text-left p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors font-semibold">Routine Servicing</button>
+                </div>
+            </section>
+
+            <section id="showcase-display" class="hidden">
+                <h2 class="text-xl font-bold text-center">Rolex Daytona - Case and Bracelet Polishing</h2>
+                <div id="media-viewport" class="my-4 bg-slate-900 rounded-lg h-64 flex items-center justify-center overflow-hidden">
+                    </div>
+                <div class="grid grid-cols-3 gap-2 text-center text-sm font-semibold">
+                    <button id="btn-before" onclick="showMedia('before')" class="p-3 bg-slate-600 rounded-md hover:bg-slate-500 transition-colors">Before</button>
+                    <button id="btn-video" onclick="showMedia('video')" class="p-3 bg-slate-700 rounded-md hover:bg-slate-500 transition-colors">Video</button>
+                    <button id="btn-after" onclick="showMedia('after')" class="p-3 bg-slate-700 rounded-md hover:bg-slate-500 transition-colors">After</button>
+                </div>
+                <p class="text-center text-slate-400 mt-4 text-sm">
+                    Restored with a full case and bracelet polish, complemented by a full service performed with precise care.
+                </p>
+                <hr class="border-slate-700 my-6">
+                <div class="text-center">
+                    <p class="font-bold mb-2">Impressed? Call for a consultation.</p>
+                    <a href="tel:555-123-4567" class="inline-block w-full p-4 rounded-lg btn-gold">
+                        (555) 123-4567 Call Now
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // --- STATE MANAGEMENT ---
+        // A simple object to keep track of the user's journey and selections.
+        const appState = {
+            currentScreen: 'brand-selection',
+            userSelection: {
+                brand: null,
+                service: null,
+            },
+            // This object holds the content for our single prototype example.
+            // In a real application, this would come from a database.
+            showcaseContent: {
+                before_img: 'https://storage.googleapis.com/garden-prod/results/9214a1c5-555e-49b9-875f-211470487539_0',
+                after_img: 'https://storage.googleapis.com/garden-prod/results/9214a1c5-555e-49b9-875f-211470487539_1',
+                video_src: 'path/to/your/polishing-video.mp4' // Replace with your actual video file path
+            }
+        };
+
+        // --- DOM ELEMENTS ---
+        // Getting references to all the parts of our interface we need to manipulate.
+        const sections = {
+            brand: document.getElementById('brand-selection'),
+            service: document.getElementById('service-selection'),
+            showcase: document.getElementById('showcase-display')
+        };
+        const backButton = document.getElementById('back-button');
+        const serviceTitle = document.getElementById('service-title');
+        const mediaViewport = document.getElementById('media-viewport');
+        const mediaButtons = {
+            before: document.getElementById('btn-before'),
+            video: document.getElementById('btn-video'),
+            after: document.getElementById('btn-after')
+        };
+
+        // --- CORE FUNCTIONS ---
+
+        /**
+         * Hides all screens and shows the one specified by screenName.
+         * @param {string} screenName - The key for the screen to show ('brand', 'service', 'showcase').
+         */
+        function showScreen(screenName) {
+            // Hide all sections first
+            Object.values(sections).forEach(section => section.classList.add('hidden'));
+            // Show the target section with a fade-in effect
+            if (sections[screenName]) {
+                sections[screenName].classList.remove('hidden');
+                sections[screenName].classList.add('fade-in');
+                appState.currentScreen = screenName;
+            }
+            // Show or hide the back button based on the screen
+            backButton.classList.toggle('hidden', screenName === 'brand-selection');
+        }
+
+        /**
+         * Handles the user selecting a watch brand.
+         * @param {string} brandName - The name of the brand selected (e.g., 'Rolex').
+         */
+        function selectBrand(brandName) {
+            appState.userSelection.brand = brandName;
+            serviceTitle.textContent = `What service does your ${brandName} require?`;
+            showScreen('service');
+        }
+
+        /**
+         * Handles the user selecting a service.
+         * @param {string} serviceName - The name of the service selected.
+         */
+        function selectService(serviceName) {
+            appState.userSelection.service = serviceName;
+            // For this prototype, we always show the same showcase.
+            // In a real app, you'd use brandName and serviceName to find the right content.
+            showScreen('showcase');
+            // Default to showing the "after" image first for maximum impact.
+            showMedia('after');
+        }
+
+        /**
+         * Displays the selected media in the showcase viewport.
+         * @param {string} mediaType - 'before', 'after', or 'video'.
+         */
+        function showMedia(mediaType) {
+            // Reset button styles
+            Object.values(mediaButtons).forEach(btn => btn.classList.replace('bg-slate-600', 'bg-slate-700'));
+            // Highlight the active button
+            mediaButtons.classList.replace('bg-slate-700', 'bg-slate-600');
+
+            let content = '';
+            if (mediaType === 'before') {
+                content = `<img src="${appState.showcaseContent.before_img}" alt="Watch before service" class="w-full h-full object-contain">`;
+            } else if (mediaType === 'after') {
+                content = `<img src="${appState.showcaseContent.after_img}" alt="Watch after service" class="w-full h-full object-contain">`;
+            } else if (mediaType === 'video') {
+                // The 'controls' attribute adds play/pause, volume, etc.
+                content = `<video src="${appState.showcaseContent.video_src}" controls class="w-full h-full object-contain" autoplay>Your browser does not support the video tag.</video>`;
+            }
+            mediaViewport.innerHTML = content;
+        }
+
+        /**
+         * Navigates the user to the previous screen.
+         */
+        function goBack() {
+            if (appState.currentScreen === 'showcase') {
+                showScreen('service');
+            } else if (appState.currentScreen === 'service') {
+                showScreen('brand');
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        // Attach the goBack function to the back button's click event.
+        backButton.addEventListener('click', goBack);
+
+    </script>
+</body>
+</html>

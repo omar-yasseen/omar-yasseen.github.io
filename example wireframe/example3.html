@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everest Watch Servicing - Service Flow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 2. Standalone CSS for the transition */
+        /* This is needed because the transition is a custom behavior */
+        /* that isn't a standard Tailwind utility. */
+        #screen-container {
+            /* This makes the slide animation smooth */
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #screen-container.slide-to-services {
+            /* This moves the container 50% to the left, revealing the second screen */
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white antialiased">
+
+    <div id="service-counter-viewport" class="max-w-md mx-auto relative overflow-x-hidden">
+        <div id="screen-slider" class="w-[200%] flex">
+            <section id="brand-selection-screen" class="w-1/2">
+                <header class="text-center my-8">
+                    <h1 class="text-4xl font-bold">Everest</h1>
+                    <p class="text-xl text-slate-400 mt-2">Select Your Timepiece</p>
+                </header>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button data-brand="Rolex" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-amber-400 rounded-lg transition-colors duration-300 hover:bg-amber-400 touch-pan-y">
+                        <img src="https://i.imgur.com/sTW8qC2.png" alt="Rolex Logo" class="max-w-[70%] max-h-[70%] object-contain pointer-events-none">
+                    </button>
+
+                    <button data-brand="Audemars Piguet" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-slate-600 rounded-lg transition-colors duration-300 hover:bg-slate-700 touch-pan-y">
+                        <img src="https://i.imgur.com/vF5H46b.png" alt="Audemars Piguet Logo" class="max-w-[70%] max-h-[70%] object-contain pointer-events-none">
+                    </button>
+
+                    <button data-brand="Patek Philippe" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-slate-600 rounded-lg transition-colors duration-300 hover:bg-slate-700 touch-pan-y">
+                        <img src="https://i.imgur.com/L4Y2M4A.png" alt="Patek Philippe Logo" class="max-w-[70%] max-h-[70%] object-contain pointer-events-none">
+                    </button>
+
+                    <button data-brand="Omega" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-slate-600 rounded-lg transition-colors duration-300 hover:bg-slate-700 touch-pan-y">
+                        <img src="https://i.imgur.com/C2flm2I.png" alt="Omega Logo" class="max-w-[70%] max-h-[70%] object-contain pointer-events-none">
+                    </button>
+                </div>
+            </section>
+
+            <section id="service-selection-screen" class="w-1/2">
+                <header class="text-center my-8 relative">
+                    <button id="back-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <h1 id="service-title" class="text-3xl font-bold">Rolex Service</h1>
+                    <p class="text-lg text-slate-400 mt-2">Select a Service</p>
+                </header>
+
+                <fieldset class="space-y-4">
+                    <legend class="sr-only">Service Options</legend>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service1" value="overhaul" class="peer hidden" checked />
+                        <label for="service1" class="block p-6 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Full Overhaul</span>
+                            <span class="block mt-1 text-sm text-slate-400">Complete disassembly, cleaning, and regulation.</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service2" value="polishing" class="peer hidden" />
+                        <label for="service2" class="block p-6 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Case & Bracelet Polishing</span>
+                            <span class="block mt-1 text-sm text-slate-400">Expert restoration of your timepiece's original finish.</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service3" value="battery" class="peer hidden" />
+                        <label for="service3" class="block p-6 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Battery Replacement</span>
+                            <span class="block mt-1 text-sm text-slate-400">Includes pressure testing and seal replacement.</span>
+                        </label>
+                    </div>
+                </fieldset>
+                
+                <button class="mt-8 w-full bg-amber-400 text-slate-950 font-bold py-4 rounded-lg hover:bg-amber-300 transition-colors">
+                    Request Service
+                </button>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        const screenContainer = document.getElementById('screen-container');
+        const brandButtons = document.querySelectorAll('.brand-btn');
+        const backButton = document.getElementById('back-btn');
+        const serviceTitle = document.getElementById('service-title');
+
+        brandButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Get the selected brand name from the button's data attribute
+                const brandName = button.dataset.brand;
+                
+                // Update the title on the second screen
+                serviceTitle.textContent = `${brandName} Service`;
+
+                // Add the class to trigger the slide animation
+                screenContainer.classList.add('slide-to-services');
+            });
+        });
+
+        backButton.addEventListener('click', () => {
+            // Remove the class to slide back to the first screen
+            screenContainer.classList.remove('slide-to-services');
+        });
+    </script>
+
+</body>
+</html>
