@@ -30,6 +30,13 @@
         html {
     scroll-behavior: smooth;
         }
+        body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        body::-webkit-scrollbar {
+            display: none;  /* Safari and Chrome */
+        }
         /* 2. Standalone CSS for the transition */
         /* This is needed because the transition is a custom behavior */
         /* that isn't a standard Tailwind utility. */
@@ -155,7 +162,7 @@
                         <input type="radio" name="service_type" id="service1" value="fullservice" class="peer hidden" checked />
                         <label for="service1" class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
                             <span class="block text-lg font-semibold text-white">Full Service</span>
-                            <span class="block mt-1 text-sm text-slate-400">Complete disassembly, cleaning, and regulation.</span>
+                            <span class="block mt-1 text-sm text-slate-400">Complete maintenence, cleaning, and regulation.</span>
                         </label>
                     </div>
                     <div>
