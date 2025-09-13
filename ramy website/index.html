@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everest By Ramy Eid - Luxury Watch Servicing</title>
+
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#020202',
+                        lightGray: '#F3F4F6',
+                        gold: '#FBBF24',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+    scroll-behavior: smooth;
+        }
+        /* 2. Standalone CSS for the transition */
+        /* This is needed because the transition is a custom behavior */
+        /* that isn't a standard Tailwind utility. */
+        .screen-container {
+            /* This makes the slide animation smooth */
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .slide-to-services {
+            /* This moves the container 50% to the left, revealing the second screen */
+            transform: translateX(-50%);
+        }
+        /* --- NEW CSS FOR THE DYNAMIC UNDERLINE --- */
+        #service-title {
+        position: relative;         /* This allows us to position the underline relative to the title. */
+        display: inline-block;      /* This makes the title's container only as wide as the text itself. */
+        padding-bottom: 0.5rem;   /* Adds space below the text for the line. */
+        }
+
+        #service-title::after {
+        content: '';                /* Pseudo-elements need a 'content' property to show up. */
+        position: absolute;         /* Positions the underline relative to the #service-title. */
+        bottom: 0;                  /* Places the line at the very bottom of the padded space. */
+        left: 50%;                  /* Centers the starting point of the line. */
+        transform: translateX(-50%);/* Pulls the line back to the left by half its own width, perfectly centering it. */
+        width: 120%;                /* Makes the underline 20% wider than the text. */
+        height: 2px;                /* Sets the thickness of the line. */
+        background-color: #FBBF24;  /* Sets the color to your 'gold' theme color. */
+        border-radius: 1px;         /* (Optional) Makes the ends of the line slightly rounded. */
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-lightGray font-sans antialiased">
+
+    <div id="app-container" class="min-h-screen flex flex-col items-center p-4 sm:p-6">
+        
+        <header class="w-full max-w-md mb-8">
+            <img src="./img/everest.jpeg" alt="">
+        </header>
+
+        <main class="w-full max-w-md flex-grow flex flex-col">
+        <div id="service-counter-viewport" class="max-w-md mx-auto relative overflow-x-hidden">
+        <div id="screen-slider" class="w-[200%] flex transition-transform duration-500 ease-in-out">
+            <section id="brand-selection" class="w-1/2 px-2">
+                <h2 class="text-xl font-semibold mb-6 text-center">Select Your Timepiece Brand</h2>
+                <div class="w-full grid grid-cols-2 gap-4">
+    
+    <button data-action="select-brand" data-brand="Richard Mille" class="brand-btn flex  items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal touch-pan-y">
+    <div class="h-20 flex items-center justify-center">
+        <img src="./logos/richard-mille-logo2.png" alt="Richard-Mille Logo"  class="object-contain max-w-[100%] max-h-[170%] object-contain filter invert pointer-events-none">
+    </div>
+    
+    </button>
+    
+    <button data-action="select-brand" data-brand="AP" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal touch-pan-y">
+    <div class="h-20 flex items-center justify-center">
+        <img src="./logos/audemars-piguet2.png" alt="Audemars Piguet Logo"  class="object-contain max-w-[120%] max-h-[170%] object-contain filter invert pointer-events-none">
+    </div>
+
+    </button>
+
+    <button data-action="select-brand" data-brand="Patek Philippe" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal touch-pan-y">
+    <div class="h-20 flex items-center justify-center">
+        <img src="./logos/patek-philippe.png" alt="Patek Philippe Logo"  class="object-contain max-w-[120%] max-h-[170%] object-contain filter invert pointer-events-none">
+    </div>
+
+    </button>
+
+    <button data-action="select-brand" data-brand="Rolex" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal touch-pan-y">
+    <div class="h-20 flex items-center justify-center">
+        <img src="./logos/rolex-logo.png" alt="Rolex Logo" class="object-contain max-w-[120%] max-h-[120%] object-contain filter invert pointer-events-none">
+    </div>
+
+    </button>
+
+    
+
+    <button data-action="select-brand" data-brand="Cartier" class="brand-btn flex  items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal touch-pan-y">
+    <div class="h-20 flex items-center justify-center">
+        <img src="./logos/cartier-logo.png" alt="Cartier Logo"  class="object-contain max-w-[90%] max-h-[100%] object-contain filter invert pointer-events-none">
+    </div>
+    
+    </button>
+    
+    
+
+
+    <button data-action="select-brand" data-brand="Omega" class="brand-btn flex  items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal touch-pan-y">
+    <div class="h-20 flex items-center justify-center">
+        <img src="./logos/omega2.png" alt="Omega Logo"  class="object-contain max-w-[140%] max-h-[140%] object-contain filter invert pointer-events-none">
+    </div>
+    
+    </button>
+
+    <button data-action="select-brand" data-brand="Hublot" class="brand-btn flex  items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal touch-pan-y">
+    <div class="h-20 flex items-center justify-center">
+        <img src="./logos/hublot-logo.png" alt="Hublot Logo"  class="object-contain max-w-[80%] max-h-[100%] object-contain filter invert pointer-events-none">
+    </div>
+    
+    </button>
+
+
+
+
+    
+</div>
+            </section>
+
+            <section id="service-selection-screen" class="w-1/2 px-2">
+                <header class="text-center my-8 relative">
+                    <button id="back-btn" class="absolute left-0 top-20 text-slate-400 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <h1 id="service-title" class="text-3xl font-bold">Rolex Service</h1>
+                    <p class="text-lg text-slate-400 mt-2">Select a Service</p>
+                </header>
+
+                <fieldset class="space-y-4">
+                    <legend class="sr-only">Service Options</legend>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service1" value="fullservice" class="peer hidden" checked />
+                        <label for="service1" class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Full Service</span>
+                            <span class="block mt-1 text-sm text-slate-400">Complete disassembly, cleaning, and regulation.</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service2" value="polishing" class="peer hidden" />
+                        <label for="service2" class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Case & Bracelet Polishing</span>
+                            <span class="block mt-1 text-sm text-slate-400">Expert restoration of your timepiece's finish.</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service3" value="battery" class="peer hidden" />
+                        <label for="service3" class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Battery Replacement</span>
+                            <span class="block mt-1 text-sm text-slate-400">Battery replacement with quality in mind.</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service3" value="rust" class="peer hidden" />
+                        <label for="service4" class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Rusted Timepiece Restoration</span>
+                            <span class="block mt-1 text-sm text-slate-400">Overhauling a timepiece to it's former glory.</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="service_type" id="service3" value="waterproof" class="peer hidden" />
+                        <label for="service5" class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                            <span class="block text-lg font-semibold text-white">Water proof restoration</span>
+                            <span class="block mt-1 text-sm text-slate-400">Includes pressure testing and seal replacement.</span>
+                        </label>
+                    </div>
+                </fieldset>
+                
+                <button class="mt-8 w-full bg-amber-400 text-slate-950 font-bold py-4 rounded-lg hover:bg-amber-300 transition-colors">
+                    Request Service
+                </button>
+            </div>
+            </section>
+    </div>
+    </div>
+        </main>
+    </div>
+    <script>
+        // Select the elements we need to interact with
+        const screenSlider = document.getElementById('screen-slider');
+        const brandButtons = document.querySelectorAll('[data-action="select-brand"]');
+        const backButton = document.getElementById('back-btn');
+        const serviceTitle = document.getElementById('service-title');
+        // --- NEW: Set the exact number of pixels to scroll down from the top ---
+        const scrollTopPixels = 350; // Adjust this value as needed
+
+        // Add a click listener to every brand button
+        brandButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Get the brand name from the button's 'data-brand' attribute
+                const brandName = button.dataset.brand;
+                 // Update the title text content dynamically
+                serviceTitle.textContent = `${brandName} Service`;
+                // When a button is clicked, add the class to trigger the slide
+                screenSlider.classList.add('slide-to-services');
+                // --- NEW CODE FOR AUTO-SCROLLING ---
+                // Wait for the slide animation (500ms) to finish, then scroll
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: scrollTopPixels,
+                        behavior: 'smooth'
+                    });
+                }, 200); // The delay in milliseconds
+            });
+        });
+
+        // Add a click listener to the back button
+        backButton.addEventListener('click', () => {
+            // When the back button is clicked, remove the class to slide back
+            screenSlider.classList.remove('slide-to-services');
+        });
+    </script>
+</body>
+</html>
