@@ -30,7 +30,36 @@ const db = new sqlite3.Database(
 );
 
 // --- API Endpoints ---
-// Create a GET endpoint to fetch all straps
+// Create a GET endpoint to fetch ALL straps
+app.get("/api/straps", (req, res) => {
+    // This SQL query joins the Straps and Brands tables to get all necessary info
+    const sql = `
+        SELECT 
+            s.id, 
+            s.name, 
+            s.material, 
+            s.color, 
+            s.image_url, 
+            b.name AS brandName 
+        FROM Straps s
+        JOIN Brands b ON s.brand_id = b.id
+    `;
+
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            // If there's an error, send a 500 status code
+            res.status(500).json({ "error": err.message });
+            return;
+        }
+        // If successful, send the data back in the format the front-end expects
+        res.json({
+            "message": "success",
+            "data": rows
+        });
+    });
+});
+
+
 // GET endpoint to fetch all strap data for a specific brand
 app.get('/api/brands/:brandName/gallery', (req, res) => {
     const { brandName } = req.params;

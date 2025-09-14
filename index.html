@@ -323,6 +323,10 @@
             <section id="gallery-screen" class="hidden px-2 flex flex-col">
                 <header class="text-center my-8 relative">
                     <button id="back-btn-gallery" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
                     </button>
                     <h1 id="gallery-title" class="text-3xl font-bold">Strap Gallery</h1>
                 </header>
@@ -330,7 +334,7 @@
                 <div id="material-tabs-container" class="flex space-x-4 overflow-x-auto pb-4 mb-4">
                 </div>
 
-                <div id="strap-grid-container" class="w-full grid grid-cols-2 gap-4">
+                <div id="strap-grid-container" class="w-full grid grid-cols-3 gap-4">
                 </div>
             </section>
     </div>
@@ -349,20 +353,12 @@
 
         //strap selector
         const sliderViewport = document.getElementById('service-counter-viewport');
-        const strapScreen = document.getElementById('material-selection-screen');
-        const requestServiceBtn = document.getElementById('request-service-btn');
-        const strapBackBtn = document.getElementById('back-btn-straps');
-        const strapTitle = document.getElementById('material-title');
         let selectedBrand = ''; // Stores the chosen brand
 
-        // ADD THESE NEW SELECTORS
-        const colorScreen = document.getElementById('color-selection-screen');
-        const colorContainer = document.getElementById('color-buttons-container');
-        const colorTitle = document.getElementById('color-title');
-        const colorBackBtn = document.getElementById('back-btn-colors');
-
-        const materialContainer = document.getElementById('material-buttons-container');
-
+        // Selectors for the new gallery screen
+        const galleryScreen = document.getElementById('gallery-screen');
+        const galleryBackBtn = document.getElementById('back-btn-gallery');
+        let allStrapsData = []; // To cache all strap data from the database
 
 
         // Add a click listener to every brand button
@@ -399,89 +395,69 @@
                 const serviceType = button.dataset.service;
 
                 if (serviceType === 'strapchange') {
-                    materialContainer.innerHTML = '<p class="text-center text-slate-400">Loading materials...</p>';
-
+                    // Hide the main services slider and show the gallery screen
                     sliderViewport.classList.add('hidden');
-                    strapTitle.textContent = `${selectedBrand} Materials`;
-                    strapScreen.classList.remove('hidden');
+                    galleryScreen.classList.remove('hidden');
+                    galleryScreen.classList.add('flex'); // Make sure it's visible as a flex container
 
-                    try {
-                        // Call the new, dynamic API endpoint using the selectedBrand variable
-                        const response = await fetch(`http://localhost:3001/api/brands/${encodeURIComponent(selectedBrand)}/straps`);
-                        const result = await response.json();
+                    // Scroll to the top to see the gallery header
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                        materialContainer.innerHTML = ''; // Clear the loading message
-
-                        // The API returns all straps for the brand. We need to find the unique materials.
-                        const straps = result.data;
-                        const uniqueMaterials = [...new Set(straps.map(strap => strap.material))];
-
-                        if (uniqueMaterials.length === 0) {
-                            materialContainer.innerHTML = `<p class="text-center text-slate-400">No strap materials found for ${selectedBrand}.</p>`;
-                        } else {
-                            // Create a button for each unique material
-                            uniqueMaterials.forEach(material => {
-                                const materialButton = document.createElement('button');
-                                materialButton.textContent = material;
-                                materialButton.className = 'flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-colors duration-300 hover:bg-gold hover:text-charcoal';
-                                materialContainer.appendChild(materialButton);
-                            });
-                        }
-                    } catch (error) {
-                        materialContainer.innerHTML = '<p class="text-center text-red-400">Failed to load materials.</p>';
-                        console.error('Error fetching materials:', error);
-                    }
+                    // Fetch data and build the gallery
+                    initializeGallery();
                 } else {
-                    alert(`Service request for "${serviceType}" submitted!`);
+                    // Keep the alert for all other service buttons
+                    alert(`Service request for "${serviceType}" submitted for ${selectedBrand}!`);
                 }
-            });
-        });
 
-        // ADD THIS NEW EVENT LISTENER FOR THE MATERIAL BUTTONS
-        // It listens for clicks on the container, then checks if a button was the target.
-        materialContainer.addEventListener('click', async (e) => {
-            // Only proceed if the clicked element was a button
-            if (e.target.tagName === 'BUTTON') {
-                const selectedMaterial = e.target.textContent;
+                // ADD THIS NEW EVENT LISTENER FOR THE MATERIAL BUTTONS
+                // It listens for clicks on the container, then checks if a button was the target.
+                materialContainer.addEventListener('click', async (e) => {
+                    // Only proceed if the clicked element was a button
+                    if (e.target.tagName === 'BUTTON') {
+                        const selectedMaterial = e.target.textContent;
 
-                // Update the UI
-                colorTitle.textContent = `${selectedMaterial} Colors`;
-                colorContainer.innerHTML = '<p class="text-slate-400">Loading...</p>';
-                materialScreen.classList.add('hidden');
-                colorScreen.classList.remove('hidden');
+                        // Update the UI
+                        colorTitle.textContent = `${selectedMaterial} Colors`;
+                        colorContainer.innerHTML = '<p class="text-slate-400">Loading...</p>';
+                        materialScreen.classList.add('hidden');
+                        colorScreen.classList.remove('hidden');
 
-                try {
-                    // Fetch the specific straps that match the brand AND material
-                    const response = await fetch(`http://localhost:3001/api/straps/filter?brandName=${encodeURIComponent(selectedBrand)}&material=${encodeURIComponent(selectedMaterial)}`);
-                    const result = await response.json();
+                        try {
+                            // Fetch the specific straps that match the brand AND material
+                            const respoaanse = await fetch(`http://localhost:3001/api/straps/filter?brandName=${encodeURIComponent(selectedBrand)}&material=${encodeURIComponent(selectedMaterial)}`);
+                            const result = await response.json();
 
-                    colorContainer.innerHTML = ''; // Clear loading message
+                            colorContainer.innerHTML = ''; // Clear loading message
 
-                    // Create a button for each color option returned from the API
-                    result.data.forEach(strap => {
-                        const btn = document.createElement('button');
-                        btn.textContent = strap.color;
-                        btn.className = 'flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md hover:bg-gold hover:text-charcoal';
-                        colorContainer.appendChild(btn);
-                    });
-                } catch (error) {
-                    colorContainer.innerHTML = '<p class="text-red-400">Failed to load colors.</p>';
-                    console.error('Error fetching colors:', error);
-                }
-            }
-        });
-
-        // --- New listener for the Strap Screen's Back Button ---
-        // This reverses the hide/show.
-        strapBackBtn.addEventListener('click', () => {
-            strapScreen.classList.add('hidden');
-            sliderViewport.classList.remove('hidden');
-            setTimeout(() => {
-                window.scrollTo({
-                    top: scrollTopPixels,
-                    behavior: 'smooth'
+                            // Create a button for each color option returned from the API
+                            result.data.forEach(strap => {
+                                const btn = document.createElement('button');
+                                btn.textContent = strap.color;
+                                btn.className = 'flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md hover:bg-gold hover:text-charcoal';
+                                colorContainer.appendChild(btn);
+                            });
+                        } catch (error) {
+                            colorContainer.innerHTML = '<p class="text-red-400">Failed to load colors.</p>';
+                            console.error('Error fetching colors:', error);
+                        }
+                    }
                 });
-            }, 200); // The delay in milliseconds
+
+                // --- New listener for the Strap Screen's Back Button ---
+                // This reverses the hide/show.
+                strapBackBtn.addEventListener('click', () => {
+                    strapScreen.classList.add('hidden');
+                    sliderViewport.classList.remove('hidden');
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: scrollTopPixels,
+                            behavior: 'smooth'
+                        });
+                    }, 200); // The delay in milliseconds
+                });
+
+            });
         });
         //scroll down for more logic
         // Wait for the document to be fully loaded
@@ -510,6 +486,127 @@
             // Run the function once on load in case the page is already at the bottom
             handleScroll();
         });
+        // --- NEW GALLERY FUNCTIONS ---
+
+        /**
+         * Fetches all strap data from the API and initializes the gallery display.
+         */
+        async function initializeGallery() {
+            const strapGrid = document.getElementById('strap-grid-container');
+            strapGrid.innerHTML = '<p class="text-center text-slate-400 col-span-3">Loading gallery...</p>';
+
+            try {
+                // Assumes your API endpoint to get all straps is '/api/straps'
+                const response = await fetch('http://localhost:3001/api/straps');
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const result = await response.json();
+                allStrapsData = result.data; // Cache the data
+
+                setupFilterTabs(allStrapsData);
+                displayStraps(allStrapsData);
+
+            } catch (error) {
+                strapGrid.innerHTML = '<p class="text-center text-red-400 col-span-3">Failed to load strap gallery.</p>';
+                console.error('Error initializing gallery:', error);
+            }
+        }
+
+        /**
+         * Creates filter tabs based on the unique materials found in the strap data.
+         * @param {Array} straps - The array of strap objects.
+         */
+        function setupFilterTabs(straps) {
+            const tabsContainer = document.getElementById('material-tabs-container');
+            tabsContainer.innerHTML = ''; // Clear any existing tabs
+
+            const uniqueMaterials = ['All', ...new Set(straps.map(strap => strap.material))];
+
+            uniqueMaterials.forEach(material => {
+                const tab = document.createElement('button');
+                tab.textContent = material;
+                tab.className = 'material-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors';
+                if (material === 'All') {
+                    tab.classList.add('bg-gold', 'text-charcoal'); // Style for the active tab
+                } else {
+                    tab.classList.add('bg-slate-700', 'text-lightGray', 'hover:bg-slate-600');
+                }
+                tab.dataset.material = material;
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        /**
+         * Renders the strap cards into the grid.
+         * @param {Array} straps - The array of strap objects to display.
+         */
+        function displayStraps(straps) {
+            const strapGrid = document.getElementById('strap-grid-container');
+            strapGrid.innerHTML = '';
+
+            if (straps.length === 0) {
+                strapGrid.innerHTML = '<p class="text-center text-slate-400 col-span-3">No straps found.</p>';
+                return;
+            }
+
+            straps.forEach(strap => {
+                const strapCard = document.createElement('div');
+                strapCard.className = 'bg-slate-900 border border-slate-700 rounded-lg overflow-hidden flex flex-col';
+
+                // IMPORTANT: Assumes your image URL is in 'strap.image_url' and you have a placeholder.
+                const imageUrl = strap.image_url
+                    ? `http://localhost:3001/images/${strap.image_url}`
+                    : './img/placeholder.png'; // Use a local placeholder if no image is in the DB.
+
+                strapCard.innerHTML = `
+                    <div class="aspect-square w-full bg-cover bg-center" style="background-image: url('${imageUrl}')"></div>
+                    <div class="p-3 text-center">
+                        <p class="font-semibold text-sm truncate">${strap.color} ${strap.material}</p>
+                        <p class="text-xs text-slate-400">${strap.brandName}</p>
+                    </div>
+                `;
+                strapGrid.appendChild(strapCard);
+            });
+        }
+
+        // --- NEW EVENT LISTENERS FOR GALLERY ---
+
+        // Listener for the material filter tabs
+        document.getElementById('material-tabs-container').addEventListener('click', (e) => {
+            if (e.target.classList.contains('material-tab')) {
+                const selectedMaterial = e.target.dataset.material;
+
+                // Update tab styles to show which is active
+                document.querySelectorAll('.material-tab').forEach(tab => {
+                    tab.classList.remove('bg-gold', 'text-charcoal');
+                    tab.classList.add('bg-slate-700', 'text-lightGray');
+                });
+                e.target.classList.add('bg-gold', 'text-charcoal');
+
+                // Filter and display straps
+                const filteredStraps = (selectedMaterial === 'All')
+                    ? allStrapsData
+                    : allStrapsData.filter(strap => strap.material === selectedMaterial);
+
+                displayStraps(filteredStraps);
+            }
+        });
+
+        // Listener for the gallery's back button
+        galleryBackBtn.addEventListener('click', () => {
+            galleryScreen.classList.add('hidden');
+            galleryScreen.classList.remove('flex');
+            sliderViewport.classList.remove('hidden'); // Show the service selection screen again
+
+            // Scroll back down to the services section for a smooth transition back
+            setTimeout(() => {
+                window.scrollTo({ top: scrollTopPixels, behavior: 'smooth' });
+            }, 100);
+        });
+
+        // Delete the old, now unused event listeners
+        // You can remove the 'materialContainer.addEventListener' and 'strapBackBtn.addEventListener'
+        // from your old code if you haven't already.
     </script>
 </body>
 
