@@ -251,121 +251,102 @@
                             <p class="text-lg text-slate-400 mt-2">Select a Service</p>
                         </header>
 
-                        <fieldset class="space-y-4">
+                        <div class="space-y-4">
                             <legend class="sr-only">Service Options</legend>
 
-                            <div>
-                                <input type="radio" name="service_type" id="service1" value="fullservice"
-                                    class="peer hidden" checked />
-                                <label for="service1"
-                                    class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
-                                    <span class="block text-lg font-semibold text-white">Full Service</span>
-                                    <span class="block mt-1 text-sm text-slate-400">Complete maintenence, cleaning, and
-                                        regulation.</span>
-                                </label>
-                            </div>
-                            <div>
-                                <input type="radio" name="service_type" id="service2" value="repair" class="peer hidden"
-                                    checked />
-                                <label for="service2"
-                                    class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
-                                    <span class="block text-lg font-semibold text-white">Non-Working Watch Repair</span>
-                                    <span class="block mt-1 text-sm text-slate-400">Restoration of the movement's
-                                        functionality.</span>
-                                </label>
+
+
+                            <div class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
+                                data-service="service" role="button" tabindex="0">
+                                <span class="block text-lg font-semibold text-white">Full Service</span>
+                                <span class="block mt-1 text-sm text-slate-400">Complete maintenence, cleaning, and
+                                    regulation.</span>
                             </div>
 
-                            <div>
-                                <input type="radio" name="service_type" id="service3" value="polishing"
-                                    class="peer hidden" />
-                                <label for="service3"
-                                    class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+
+
+                            <div class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
+                                data-service="repair" role="button" tabindex="0">
+                                <span class="block text-lg font-semibold text-white">Non-Working Watch Repair</span>
+                                <span class="block mt-1 text-sm text-slate-400">Restoration of the movement's
+                                    functionality.</span>
+
+                            </div>
+                                <div class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
+                                    data-service="polish" role="button" tabindex="0">
                                     <span class="block text-lg font-semibold text-white">Case & Bracelet
                                         Polishing</span>
                                     <span class="block mt-1 text-sm text-slate-400">Expert restoration of your
                                         timepiece's finish.</span>
-                                </label>
-                            </div>
+                                </div>
 
-                            <div>
-                                <input type="radio" name="service_type" id="service4" value="strapchange"
-                                    class="peer hidden" />
-                                <label for="service4"
-                                    class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+
+
+                                <div for="service4"
+                                    class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
+                                    data-service="strapchange" role="button" tabindex="0">
                                     <span class="block text-lg font-semibold text-white">Strap Change</span>
                                     <span class="block mt-1 text-sm text-slate-400">Replace your timepiece's strap with
                                         a new one.</span>
-                                </label>
-                            </div>
+                                </div>
 
-                            <div>
-                                <input type="radio" name="service_type" id="service5" value="battery"
-                                    class="peer hidden" />
-                                <label for="service5"
-                                    class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+
+
+                                <div class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
+                                    data-service="batteryreplacement" role="button" tabindex="0">
                                     <span class="block text-lg font-semibold text-white">Battery Replacement</span>
                                     <span class="block mt-1 text-sm text-slate-400">Battery replacement with quality in
                                         mind.</span>
-                                </label>
-                            </div>
+                                </div>
 
-                            <div>
-                                <input type="radio" name="service_type" id="service6" value="rust"
-                                    class="peer hidden" />
-                                <label for="service6"
-                                    class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+
+                                <div class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
+                                    data-service="rust" role="button" tabindex="0">
                                     <span class="block text-lg font-semibold text-white">Rusted Timepiece
                                         Restoration</span>
                                     <span class="block mt-1 text-sm text-slate-400">Overhauling a rusty timepiece to
                                         it's former glory.</span>
-                                </label>
-                            </div>
+                                </div>
 
-                            <div>
-                                <input type="radio" name="service_type" id="service7" value="waterproof"
-                                    class="peer hidden" />
-                                <label for="service7"
-                                    class="block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-amber-400 peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+
+
+                                <div class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
+                                    data-service="waterproof" role="button" tabindex="0">
                                     <span class="block text-lg font-semibold text-white">Water proof restoration</span>
                                     <span class="block mt-1 text-sm text-slate-400">Includes pressure testing and seal
                                         replacement.</span>
-                                </label>
+                                </div>
                             </div>
-                        </fieldset>
-
-                        <button id="request-service-btn"
-                            class="mt-8 w-full bg-amber-400 text-slate-950 font-bold py-4 rounded-lg hover:bg-amber-300 transition-colors">
-                            Request Service
-                        </button>
+                        </div>
+                    </section>
                 </div>
+                <section id="strap-selection-screen" class="px-2 hidden">
+                    <header class="text-center my-8 relative">
+                        <button id="back-btn-straps"
+                            class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                            <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <h1 id="strap-title" class="text-3xl font-bold">Strap Options</h1>
+                        <p class="text-lg text-slate-400 mt-2">Select a new strap</p>
+                    </header>
+
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg">
+                            <span class="block text-lg font-semibold text-white">Leather Strap</span>
+                            <span class="block mt-1 text-sm text-slate-400">Genuine alligator leather.</span>
+                        </div>
+                        <div class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg">
+                            <span class="block text-lg font-semibold text-white">Rubber Strap</span>
+                            <span class="block mt-1 text-sm text-slate-400">Durable vulcanized rubber.</span>
+                        </div>
+                    </div>
                 </section>
             </div>
-            <section id="strap-selection-screen" class="px-2 hidden">
-                <header class="text-center my-8 relative">
-                    <button id="back-btn-straps"
-                        class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
-                        <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <h1 id="strap-title" class="text-3xl font-bold">Strap Options</h1>
-                    <p class="text-lg text-slate-400 mt-2">Select a new strap</p>
-                </header>
-
-                <div class="space-y-4">
-                    <div class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg">
-                        <span class="block text-lg font-semibold text-white">Leather Strap</span>
-                        <span class="block mt-1 text-sm text-slate-400">Genuine alligator leather.</span>
-                    </div>
-                    <div class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg">
-                        <span class="block text-lg font-semibold text-white">Rubber Strap</span>
-                        <span class="block mt-1 text-sm text-slate-400">Durable vulcanized rubber.</span>
-                    </div>
-                </div>
-            </section>
-    </div>
-    </main>
+        </main>
     </div>
     <script>
         //restores scrollpoistion without caching interfering
@@ -416,26 +397,28 @@
             // When the back button is clicked, remove the class to slide back
             screenSlider.classList.remove('slide-to-services');
         });
-        // --- New listener for the "Request Service" Button ---
-        // This handles the hide/show logic.
-        requestServiceBtn.addEventListener('click', () => {
-            const selectedService = document.querySelector('input[name="service_type"]:checked');
+        // --- Logic for direct service buttons ---
+        const serviceButtons = document.querySelectorAll('.service-btn');
 
-            // Check if the "Strap Change" radio button is selected
-            if (selectedService && selectedService.value === 'strapchange') {
-                // Hide the entire slider
-                sliderViewport.classList.add('hidden');
+        serviceButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 1. Get the unique ID of the clicked button
+                const serviceType = button.dataset.service;
 
-                // Set the title on the new screen
-                strapTitle.textContent = `${selectedBrand} Straps`;
+                // 2. Check IF it's the strap button
+                if (serviceType === 'strapchange') {
 
-                // Show the strap screen
-                strapScreen.classList.remove('hidden');
+                    // 3. IF YES, run the special logic for the strap screen
+                    sliderViewport.classList.add('hidden');
+                    strapTitle.textContent = `${selectedBrand} Straps`;
+                    strapScreen.classList.remove('hidden');
 
-            } else {
-                // Fallback for any other service
-                alert('Service request submitted!');
-            }
+                } else {
+
+                    // 4. IF NO, run the default logic for all other buttons
+                    alert(`Service request for "${serviceType}" submitted!`);
+                }
+            });
         });
 
         // --- New listener for the Strap Screen's Back Button ---
