@@ -412,7 +412,7 @@
 
                 // ADD THIS NEW EVENT LISTENER FOR THE MATERIAL BUTTONS
                 // It listens for clicks on the container, then checks if a button was the target.
-                materialContainer.addEventListener('click', async (e) => {
+                document.getElementById('material-tabs-container').addEventListener('click', async (e) => {
                     // Only proceed if the clicked element was a button
                     if (e.target.tagName === 'BUTTON') {
                         const selectedMaterial = e.target.textContent;
@@ -444,18 +444,7 @@
                     }
                 });
 
-                // --- New listener for the Strap Screen's Back Button ---
-                // This reverses the hide/show.
-                strapBackBtn.addEventListener('click', () => {
-                    strapScreen.classList.add('hidden');
-                    sliderViewport.classList.remove('hidden');
-                    setTimeout(() => {
-                        window.scrollTo({
-                            top: scrollTopPixels,
-                            behavior: 'smooth'
-                        });
-                    }, 200); // The delay in milliseconds
-                });
+                
 
             });
         });
@@ -563,7 +552,6 @@
                     <div class="aspect-square w-full bg-cover bg-center" style="background-image: url('${imageUrl}')"></div>
                     <div class="p-3 text-center">
                         <p class="font-semibold text-sm truncate">${strap.color} ${strap.material}</p>
-                        <p class="text-xs text-slate-400">${strap.brandName}</p>
                     </div>
                 `;
                 strapGrid.appendChild(strapCard);
