@@ -87,10 +87,67 @@
             border-radius: 1px;
             /* (Optional) Makes the ends of the line slightly rounded. */
         }
+
+        /* --- SCROLL INDICATOR STYLES --- */
+        #scroll-indicator {
+            /* Positioning */
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+
+            /* Appearance */
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+
+            /* Animation and Transition */
+            animation: bounce 2s infinite;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        /* A class to hide the indicator smoothly */
+        #scroll-indicator.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* The bouncing animation */
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
     </style>
 </head>
 
 <body class="bg-charcoal text-lightGray font-sans antialiased">
+
+    <div id="scroll-indicator">
+        <span>Scroll for more</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.59 8.59003L12 13.17L7.41 8.59003L6 10L12 16L18 10L16.59 8.59003Z" fill="currentColor" />
+        </svg>
+    </div>
+
 
     <div id="app-container" class="min-h-screen flex flex-col items-center p-4 sm:p-6">
 
@@ -387,13 +444,39 @@
             strapScreen.classList.add('hidden');
             sliderViewport.classList.remove('hidden');
             setTimeout(() => {
-                    window.scrollTo({
-                        top: scrollTopPixels,
-                        behavior: 'smooth'
-                    });
-                }, 200); // The delay in milliseconds
-            });
+                window.scrollTo({
+                    top: scrollTopPixels,
+                    behavior: 'smooth'
+                });
+            }, 200); // The delay in milliseconds
+        });
+        //scroll down for more logic
+        // Wait for the document to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
 
+            // Select the scroll indicator element
+            const scrollIndicator = document.getElementById('scroll-indicator');
+
+            // Function to check scroll position
+            function handleScroll() {
+                // A buffer of 50px so it disappears slightly before the absolute bottom
+                const scrollBuffer = 50;
+
+                // Check if the user's scroll position is near the bottom
+                // (Viewport Height + Scroll from Top >= Total Document Height)
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - scrollBuffer) {
+                    scrollIndicator.classList.add('hidden');
+                } else {
+                    scrollIndicator.classList.remove('hidden');
+                }
+            }
+
+            // Add an event listener to run the function on every scroll
+            window.addEventListener('scroll', handleScroll);
+
+            // Run the function once on load in case the page is already at the bottom
+            handleScroll();
+        });
     </script>
 </body>
 
