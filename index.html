@@ -311,8 +311,8 @@
     </main>
     </div>
     <script>
-
-
+        //restores scrollpoistion without caching interfering
+        history.scrollRestoration = 'manual';
         // Select the elements we need to interact with
         const screenSlider = document.getElementById('screen-slider');
         const brandButtons = document.querySelectorAll('[data-action="select-brand"]');
