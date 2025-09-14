@@ -497,11 +497,12 @@
 
             try {
                 // Assumes your API endpoint to get all straps is '/api/straps'
-                const response = await fetch('http://localhost:3001/api/straps');
+                const response = await fetch(`http://localhost:3001/api/brands/${encodeURIComponent(selectedBrand)}/gallery`);
                 if (!response.ok) throw new Error('Network response was not ok');
 
                 const result = await response.json();
-                allStrapsData = result.data; // Cache the data
+                // Flatten the grouped data from the server into a single list
+                allStrapsData = Object.values(result.data).flat();
 
                 setupFilterTabs(allStrapsData);
                 displayStraps(allStrapsData);
