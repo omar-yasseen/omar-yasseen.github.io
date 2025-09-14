@@ -320,7 +320,7 @@
                 </div>
                 </section>
             </div>
-            <section id="strap-selection-screen" class="px-2 hidden">
+            <section id="material-selection-screen" class="px-2 hidden">
                 <header class="text-center my-8 relative">
                     <button id="back-btn-straps"
                         class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
@@ -333,7 +333,7 @@
                     <p class="text-lg text-slate-400 mt-2">Select a new strap</p>
                 </header>
 
-                <div id="strap-options-container" class="w-full grid grid-cols-2 gap-4">
+                <div id="material-buttons-container" class="w-full grid grid-cols-2 gap-4">
 
                 </div>
             </section>
@@ -379,7 +379,7 @@
         const colorTitle = document.getElementById('color-title');
         const colorBackBtn = document.getElementById('back-btn-colors');
 
-
+        const materialContainer = document.getElementById('material-buttons-container');
 
 
 
@@ -417,7 +417,6 @@
                 const serviceType = button.dataset.service;
 
                 if (serviceType === 'strapchange') {
-                    const materialContainer = document.getElementById('strap-options-container');
                     materialContainer.innerHTML = '<p class="text-center text-slate-400">Loading materials...</p>';
 
                     sliderViewport.classList.add('hidden');
@@ -455,7 +454,41 @@
                 }
             });
         });
-        
+
+        // ADD THIS NEW EVENT LISTENER FOR THE MATERIAL BUTTONS
+        // It listens for clicks on the container, then checks if a button was the target.
+        materialContainer.addEventListener('click', async (e) => {
+            // Only proceed if the clicked element was a button
+            if (e.target.tagName === 'BUTTON') {
+                const selectedMaterial = e.target.textContent;
+
+                // Update the UI
+                colorTitle.textContent = `${selectedMaterial} Colors`;
+                colorContainer.innerHTML = '<p class="text-slate-400">Loading...</p>';
+                materialScreen.classList.add('hidden');
+                colorScreen.classList.remove('hidden');
+
+                try {
+                    // Fetch the specific straps that match the brand AND material
+                    const response = await fetch(`http://localhost:3001/api/straps/filter?brandName=${encodeURIComponent(selectedBrand)}&material=${encodeURIComponent(selectedMaterial)}`);
+                    const result = await response.json();
+
+                    colorContainer.innerHTML = ''; // Clear loading message
+
+                    // Create a button for each color option returned from the API
+                    result.data.forEach(strap => {
+                        const btn = document.createElement('button');
+                        btn.textContent = strap.color;
+                        btn.className = 'flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md hover:bg-gold hover:text-charcoal';
+                        colorContainer.appendChild(btn);
+                    });
+                } catch (error) {
+                    colorContainer.innerHTML = '<p class="text-red-400">Failed to load colors.</p>';
+                    console.error('Error fetching colors:', error);
+                }
+            }
+        });
+
         // --- New listener for the Strap Screen's Back Button ---
         // This reverses the hide/show.
         strapBackBtn.addEventListener('click', () => {
