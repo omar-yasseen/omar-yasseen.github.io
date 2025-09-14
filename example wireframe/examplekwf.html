@@ -1,0 +1,40 @@
+<html><head><body>
+    <main class="w-full max-w-md flex-grow flex flex-col">
+    <div id="service-counter-viewport" class="max-w-md mx-auto relative overflow-x-hidden">
+        <div id="screen-slider" class="w-[200%] flex transition-transform duration-500 ease-in-out">
+            
+            <section id="brand-selection" class="w-1/2 px-2">
+                </section>
+
+            <section id="service-selection-screen" class="w-1/2 px-2">
+                <button id="request-service-btn" class="mt-8 w-full bg-amber-400 text-slate-950 font-bold py-4 rounded-lg hover:bg-amber-300 transition-colors">
+                    Request Service
+                </button>
+            </section>
+        </div>
+    </div>
+
+    <section id="strap-selection-screen" class="px-2 hidden">
+        <header class="text-center my-8 relative">
+            <button id="back-btn-straps" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <h1 id="strap-title" class="text-3xl font-bold">Strap Options</h1>
+            <p class="text-lg text-slate-400 mt-2">Select a new strap</p>
+        </header>
+
+        <div class="space-y-4">
+            <div class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg">
+                <span class="block text-lg font-semibold text-white">Leather Strap</span>
+                <span class="block mt-1 text-sm text-slate-400">Genuine alligator leather.</span>
+            </div>
+            <div class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg">
+                <span class="block text-lg font-semibold text-white">Rubber Strap</span>
+                <span class="block mt-1 text-sm text-slate-400">Durable vulcanized rubber.</span>
+            </div>
+        </div>
+    </section>
+</main>
+</body></head></html>

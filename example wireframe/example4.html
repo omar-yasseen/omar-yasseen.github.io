@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everest By Ramy Eid - Luxury Watch Servicing</title>
+
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#020202',
+                        lightGray: '#F3F4F6',
+                        gold: '#FBBF24',
+                        'slate-850': '#151c2c',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Main container for the sliding screens */
+        #screen-slider {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Classes to control which screen is visible */
+        .slide-to-services {
+            transform: translateX(-33.333%);
+        }
+        .slide-to-straps {
+            transform: translateX(-66.666%);
+        }
+
+        /* Dynamic underline for titles */
+        .title-underline {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+        .title-underline::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 2px;
+            background-color: #FBBF24; /* gold */
+            border-radius: 1px;
+        }
+        /* Style for the selected strap */
+        .strap-card.selected {
+            border-color: #FBBF24; /* gold */
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-lightGray font-sans antialiased">
+
+    <div id="app-container" class="min-h-screen flex flex-col items-center p-4 sm:p-6">
+        
+        <header class="w-full max-w-lg mb-8">
+            <!-- Using a placeholder for the logo -->
+            <div class="w-full h-24 bg-slate-800 rounded-lg flex items-center justify-center">
+                <span class="text-2xl font-bold text-gold">EVEREST</span>
+            </div>
+        </header>
+
+        <main class="w-full max-w-lg flex-grow flex flex-col">
+            <div id="screen-viewport" class="w-full mx-auto relative overflow-x-hidden">
+                <!-- This slider now holds three screens, so it's 300% width -->
+                <div id="screen-slider" class="w-[300%] flex">
+                    
+                    <!-- Screen 1: Brand Selection -->
+                    <section id="brand-selection" class="w-1/3 px-2">
+                        <h2 class="text-xl font-semibold mb-6 text-center">Select Your Timepiece Brand</h2>
+                        <div class="w-full grid grid-cols-2 gap-4">
+                            <!-- Brand buttons -->
+                            <button data-brand="Richard Mille" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-all duration-300 hover:bg-gold hover:text-charcoal focus:bg-gold focus:text-charcoal touch-pan-y">
+                                <img src="https://placehold.co/100x40/020202/FBBF24?text=Richard+Mille&font=inter" alt="Richard Mille Logo" class="object-contain pointer-events-none">
+                            </button>
+                            <button data-brand="AP" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-all duration-300 hover:bg-gold hover:text-charcoal focus:bg-gold focus:text-charcoal touch-pan-y">
+                                <img src="https://placehold.co/100x40/020202/FBBF24?text=AP&font=inter" alt="Audemars Piguet Logo" class="object-contain pointer-events-none">
+                            </button>
+                            <button data-brand="Patek Philippe" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-all duration-300 hover:bg-gold hover:text-charcoal focus:bg-gold focus:text-charcoal touch-pan-y">
+                               <img src="https://placehold.co/100x40/020202/FBBF24?text=Patek+Philippe&font=inter" alt="Patek Philippe Logo" class="object-contain pointer-events-none">
+                            </button>
+                            <button data-brand="Rolex" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-all duration-300 hover:bg-gold hover:text-charcoal focus:bg-gold focus:text-charcoal touch-pan-y">
+                                <img src="https://placehold.co/100x40/020202/FBBF24?text=Rolex&font=inter" alt="Rolex Logo" class="object-contain pointer-events-none">
+                            </button>
+                            <button data-brand="Cartier" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-all duration-300 hover:bg-gold hover:text-charcoal focus:bg-gold focus:text-charcoal touch-pan-y">
+                                <img src="https://placehold.co/100x40/020202/FBBF24?text=Cartier&font=inter" alt="Cartier Logo" class="object-contain pointer-events-none">
+                            </button>
+                            <button data-brand="Omega" class="brand-btn flex items-center justify-center p-4 aspect-[4/3] border border-gold rounded-md transition-all duration-300 hover:bg-gold hover:text-charcoal focus:bg-gold focus:text-charcoal touch-pan-y">
+                                <img src="https://placehold.co/100x40/020202/FBBF24?text=Omega&font=inter" alt="Omega Logo" class="object-contain pointer-events-none">
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Screen 2: Service Selection -->
+                    <section id="service-selection" class="w-1/3 px-2">
+                        <header class="text-center my-8 relative">
+                            <button id="back-to-brands-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                            </button>
+                            <h1 id="service-title" class="text-3xl font-bold title-underline">Select Service</h1>
+                        </header>
+                        <fieldset class="space-y-4">
+                            <legend class="sr-only">Service Options</legend>
+                            <!-- Service options -->
+                            <div>
+                                <input type="radio" name="service_type" id="service-full" value="fullservice" class="peer hidden" checked />
+                                <label for="service-full" class="block p-4 bg-slate-850 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-gold peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                                    <span class="block text-lg font-semibold text-white">Full Service</span>
+                                    <span class="block mt-1 text-sm text-slate-400">Complete disassembly, cleaning, and regulation.</span>
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="service_type" id="service-polish" value="polishing" class="peer hidden" />
+                                <label for="service-polish" class="block p-4 bg-slate-850 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-gold peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                                    <span class="block text-lg font-semibold text-white">Case & Bracelet Polishing</span>
+                                    <span class="block mt-1 text-sm text-slate-400">Expert restoration of your timepiece's finish.</span>
+                                </label>
+                            </div>
+                            <!-- NEW STRAP CHANGE OPTION -->
+                            <div>
+                                <input type="radio" name="service_type" id="service-strap" value="strap_change" class="peer hidden" />
+                                <label for="service-strap" class="block p-4 bg-slate-850 border-2 border-slate-700 rounded-lg cursor-pointer transition-all peer-checked:border-gold peer-checked:shadow-lg peer-checked:shadow-amber-500/10">
+                                    <span class="block text-lg font-semibold text-white">Strap Change</span>
+                                    <span class="block mt-1 text-sm text-slate-400">Choose from our curated collection of luxury straps.</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <button id="request-service-btn" class="mt-8 w-full bg-gold text-charcoal font-bold py-4 rounded-lg hover:bg-amber-300 transition-colors">
+                            Proceed
+                        </button>
+                    </section>
+
+                    <!-- Screen 3: Strap Selection -->
+                    <section id="strap-selection" class="w-1/3 px-2">
+                         <header class="text-center my-8 relative">
+                            <button id="back-to-services-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                            </button>
+                            <h1 id="strap-title" class="text-3xl font-bold title-underline">Strap Collection</h1>
+                        </header>
+                        
+                        <!-- Strap gallery will be dynamically populated here -->
+                        <div id="strap-gallery" class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                           <!-- Example Strap Card -->
+                           <!--
+                           <div class="strap-card cursor-pointer bg-slate-850 border-2 border-slate-700 rounded-lg p-2 transition-all">
+                               <img src="https://placehold.co/200x200/151c2c/FBBF24?text=Strap" alt="Watch Strap" class="w-full h-auto rounded-md mb-2">
+                               <h3 class="font-semibold text-white text-sm">Oysterflex</h3>
+                               <p class="text-xs text-slate-400">Rubber</p>
+                           </div>
+                           -->
+                        </div>
+
+                        <button id="request-reservation-btn" class="w-full bg-gold text-charcoal font-bold py-4 rounded-lg hover:bg-amber-300 transition-colors disabled:bg-slate-600 disabled:cursor-not-allowed" disabled>
+                            Request Reservation
+                        </button>
+                    </section>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        const screenSlider = document.getElementById('screen-slider');
+        const brandButtons = document.querySelectorAll('.brand-btn');
+        const backToBrandsBtn = document.getElementById('back-to-brands-btn');
+        const backToServicesBtn = document.getElementById('back-to-services-btn');
+        const requestServiceBtn = document.getElementById('request-service-btn');
+        const serviceTitle = document.getElementById('service-title');
+        const strapTitle = document.getElementById('strap-title');
+        const strapGallery = document.getElementById('strap-gallery');
+        const requestReservationBtn = document.getElementById('request-reservation-btn');
+
+        // --- State ---
+        let selectedBrand = null;
+        let selectedStrapId = null;
+
+        // --- "No Database" Strap Data ---
+        const strapDatabase = {
+            'Rolex': Array.from({ length: 18 }, (_, i) => ({ id: `r_${i}`, name: `Oysterflex ${i+1}`, material: 'Rubber', img: `https://placehold.co/200x200/151c2c/FBBF24?text=Rolex+${i+1}` })),
+            'AP': Array.from({ length: 20 }, (_, i) => ({ id: `ap_${i}`, name: `Royal Oak Offshore ${i+1}`, material: 'Leather', img: `https://placehold.co/200x200/151c2c/FBBF24?text=AP+${i+1}` })),
+            'Patek Philippe': Array.from({ length: 15 }, (_, i) => ({ id: `pp_${i}`, name: `Aquanaut Lisse ${i+1}`, material: 'Composite', img: `https://placehold.co/200x200/151c2c/FBBF24?text=Patek+${i+1}` })),
+            'Richard Mille': Array.from({ length: 22 }, (_, i) => ({ id: `rm_${i}`, name: `Vented Strap ${i+1}`, material: 'FKM Rubber', img: `https://placehold.co/200x200/151c2c/FBBF24?text=RM+${i+1}` })),
+            'Cartier': Array.from({ length: 16 }, (_, i) => ({ id: `c_${i}`, name: `Santos QuickSwitch ${i+1}`, material: 'Alligator', img: `https://placehold.co/200x200/151c2c/FBBF24?text=Cartier+${i+1}` })),
+            'Omega': Array.from({ length: 19 }, (_, i) => ({ id: `o_${i}`, name: `NATO Strap ${i+1}`, material: 'Nylon', img: `https://placehold.co/200x200/151c2c/FBBF24?text=Omega+${i+1}` })),
+        };
+        
+        // --- Functions ---
+        function populateStrapGallery() {
+            if (!selectedBrand || !strapDatabase[selectedBrand]) {
+                strapGallery.innerHTML = '<p class="col-span-full text-center text-slate-400">No straps available for this brand.</p>';
+                return;
+            }
+
+            const straps = strapDatabase[selectedBrand];
+            strapGallery.innerHTML = ''; // Clear existing straps
+
+            straps.forEach(strap => {
+                const strapCard = document.createElement('div');
+                strapCard.className = 'strap-card cursor-pointer bg-slate-850 border-2 border-slate-700 rounded-lg p-2 transition-all';
+                strapCard.dataset.strapId = strap.id;
+                strapCard.innerHTML = `
+                    <img src="${strap.img}" alt="${strap.name}" class="w-full h-auto rounded-md mb-2 pointer-events-none">
+                    <h3 class="font-semibold text-white text-sm">${strap.name}</h3>
+                    <p class="text-xs text-slate-400">${strap.material}</p>
+                `;
+                strapGallery.appendChild(strapCard);
+            });
+        }
+        
+        // --- Event Listeners ---
+        brandButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                selectedBrand = button.dataset.brand;
+                serviceTitle.textContent = `${selectedBrand} Service`;
+                screenSlider.classList.add('slide-to-services');
+            });
+        });
+
+        backToBrandsBtn.addEventListener('click', () => {
+            screenSlider.classList.remove('slide-to-services');
+            selectedBrand = null;
+        });
+
+        requestServiceBtn.addEventListener('click', () => {
+            const selectedService = document.querySelector('input[name="service_type"]:checked').value;
+            if (selectedService === 'strap_change') {
+                strapTitle.textContent = `${selectedBrand} Straps`;
+                populateStrapGallery();
+                screenSlider.classList.add('slide-to-straps');
+            } else {
+                // For other services, you can add a confirmation modal
+                alert(`You have requested a "${selectedService}" for your ${selectedBrand}.`);
+            }
+        });
+
+        backToServicesBtn.addEventListener('click', () => {
+            screenSlider.classList.remove('slide-to-straps');
+            selectedStrapId = null;
+            requestReservationBtn.disabled = true;
+        });
+
+        // Event delegation for strap cards
+        strapGallery.addEventListener('click', (e) => {
+            const card = e.target.closest('.strap-card');
+            if (!card) return;
+
+            // Remove 'selected' from previously selected card
+            const currentlySelected = strapGallery.querySelector('.selected');
+            if (currentlySelected) {
+                currentlySelected.classList.remove('selected');
+            }
+            
+            // Add 'selected' to the clicked card
+            card.classList.add('selected');
+            selectedStrapId = card.dataset.strapId;
+
+            // Enable reservation button
+            requestReservationBtn.disabled = false;
+        });
+
+        requestReservationBtn.addEventListener('click', () => {
+            if (selectedBrand && selectedStrapId) {
+                const strapName = strapDatabase[selectedBrand].find(s => s.id === selectedStrapId)?.name || 'Unknown Strap';
+                alert(`Reservation requested for ${selectedBrand} with strap: ${strapName}.`);
+            }
+        });
+
+    </script>
+</body>
+</html>
