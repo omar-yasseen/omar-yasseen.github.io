@@ -320,35 +320,17 @@
                 </div>
                 </section>
             </div>
-            <section id="material-selection-screen" class="px-2 hidden">
+            <section id="gallery-screen" class="hidden px-2 flex flex-col">
                 <header class="text-center my-8 relative">
-                    <button id="back-btn-straps"
-                        class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
-                        <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
+                    <button id="back-btn-gallery" class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400">
                     </button>
-                    <h1 id="material-title" class="text-3xl font-bold">Strap Options</h1>
-                    <p class="text-lg text-slate-400 mt-2">Select a new strap</p>
+                    <h1 id="gallery-title" class="text-3xl font-bold">Strap Gallery</h1>
                 </header>
 
-                <div id="material-buttons-container" class="w-full grid grid-cols-2 gap-4">
-
+                <div id="material-tabs-container" class="flex space-x-4 overflow-x-auto pb-4 mb-4">
                 </div>
-            </section>
-            <section id="color-selection-screen" class="hidden px-2">
-                <header class="text-center my-8 relative">
-                    <button id="back-btn-colors"
-                        class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
-                        <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <h1 id="color-title" class="text-3xl font-bold">Select a Color</h1>
-                </header>
-                <div id="color-buttons-container" class="w-full grid grid-cols-2 gap-4">
+
+                <div id="strap-grid-container" class="w-full grid grid-cols-2 gap-4">
                 </div>
             </section>
     </div>

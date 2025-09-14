@@ -31,58 +31,11 @@ const db = new sqlite3.Database(
 
 // --- API Endpoints ---
 // Create a GET endpoint to fetch all straps
-// GET endpoint to fetch straps by BRAND and MATERIAL
-app.get('/api/straps/filter', (req, res) => {
-    // We'll get the parameters from the URL query string
-    // e.g., ?brandName=Rolex&material=Leather
-    const { brandName, material } = req.query; 
-
-    if (!brandName || !material) {
-        return res.status(400).json({ "error": "Missing required query parameters: brandName and material" });
-    }
-
+// GET endpoint to fetch all strap data for a specific brand
+app.get('/api/brands/:brandName/gallery', (req, res) => {
+    const { brandName } = req.params;
     const sql = `
-        SELECT s.id, s.name, s.color 
-        FROM Straps s
-        JOIN Brands b ON s.brand_id = b.id
-        WHERE b.name = ? AND s.material = ?
-    `;
-
-    db.all(sql, [brandName, material], (err, rows) => {
-        if (err) {
-            res.status(500).json({ "error": err.message });
-            return;
-        }
-        res.json({ "message": "success", "data": rows });
-    });
-});
-app.get("/api/straps", (req, res) => {
-    const sql = `SELECT * FROM Straps`;
-
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            // If there's an error, send a 500 server error response
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        // If successful, send the data back as JSON
-        res.json({
-            message: "success",
-            data: rows,
-        });
-    });
-});
-// GET endpoint to fetch all straps for a SPECIFIC brand
-app.get('/api/brands/:brandName/straps', (req, res) => {
-    const { brandName } = req.params; // Get the brand name from the URL
-
-    // This SQL query joins the two tables to find straps by the brand's name
-    const sql = `
-        SELECT 
-            s.id, 
-            s.name, 
-            s.description, 
-            s.material 
+        SELECT s.material, s.name, s.color, s.price, s.image_url 
         FROM Straps s
         JOIN Brands b ON s.brand_id = b.id
         WHERE b.name = ?
@@ -93,10 +46,15 @@ app.get('/api/brands/:brandName/straps', (req, res) => {
             res.status(500).json({ "error": err.message });
             return;
         }
-        res.json({
-            "message": "success",
-            "data": rows
+        // Group the flat list of straps by material
+        const galleryData = {};
+        rows.forEach(strap => {
+            if (!galleryData[strap.material]) {
+                galleryData[strap.material] = [];
+            }
+            galleryData[strap.material].push(strap);
         });
+        res.json({ "message": "success", "data": galleryData });
     });
 });
 // POST endpoint to create a new strap
