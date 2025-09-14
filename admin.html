@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Manage Straps</title>
+    <style>
+        body { font-family: sans-serif; background: #222; color: #eee; max-width: 600px; margin: 2rem auto; }
+        form { display: flex; flex-direction: column; gap: 10px; padding: 1rem; background: #333; border-radius: 8px; }
+        input, select { padding: 8px; }
+        button { padding: 10px; cursor: pointer; }
+        #strap-list div { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #444; }
+        .delete-btn { color: #ff8a8a; cursor: pointer; border: none; background: none; }
+    </style>
+</head>
+<body>
+    <h1>Manage Straps</h1>
+    
+    <form id="add-strap-form">
+        <h3>Add New Strap</h3>
+        <input type="text" id="name" placeholder="Strap Name" required>
+        <input type="text" id="description" placeholder="Description">
+        <input type="text" id="material" placeholder="Material">
+        <input type="number" id="price" placeholder="Price (e.g., 250.00)" step="0.01">
+        <select id="brand_id" required>
+            <option value="">-- Select Brand --</option>
+            <option value="1">Rolex</option>
+            <option value="2">Omega</option>
+            <option value="3">AP</option>
+        </select>
+        <button type="submit">Add Strap</button>
+    </form>
+
+    <h3 style="margin-top: 2rem;">Existing Straps</h3>
+    <div id="strap-list">
+        </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api/straps';
+        const strapList = document.getElementById('strap-list');
+        const addStrapForm = document.getElementById('add-strap-form');
+
+        // Function to fetch all straps and display them
+        async function fetchAndDisplayStraps() {
+            try {
+                const response = await fetch(API_URL);
+                const result = await response.json();
+                strapList.innerHTML = ''; // Clear the list
+                result.data.forEach(strap => {
+                    const strapDiv = document.createElement('div');
+                    strapDiv.innerHTML = `
+                        <span>${strap.name} (Brand ID: ${strap.brand_id})</span>
+                        <button class="delete-btn" data-id="${strap.id}">Delete</button>
+                    `;
+                    strapList.appendChild(strapDiv);
+                });
+            } catch (error) {
+                console.error('Failed to fetch straps:', error);
+            }
+        }
+
+        // Handle form submission to ADD a new strap
+        addStrapForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newStrap = {
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value,
+                material: document.getElementById('material').value,
+                price: parseFloat(document.getElementById('price').value),
+                brand_id: parseInt(document.getElementById('brand_id').value),
+            };
+
+            await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newStrap)
+            });
+
+            addStrapForm.reset();
+            fetchAndDisplayStraps(); // Refresh the list
+        });
+
+        // Handle clicks to DELETE a strap (using event delegation)
+        strapList.addEventListener('click', async (e) => {
+            if (e.target.matches('.delete-btn')) {
+                const id = e.target.dataset.id;
+                await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                fetchAndDisplayStraps(); // Refresh the list
+            }
+        });
+
+        // Initial fetch when the page loads
+        fetchAndDisplayStraps();
+    </script>
+</body>
+</html>
