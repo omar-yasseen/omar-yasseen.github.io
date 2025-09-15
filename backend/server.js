@@ -2,6 +2,26 @@
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
+const multer = require('multer'); // <-- ADD THIS LINE
+const path = require('path');   // <-- ADD THIS LINE
+
+// --- MULTER CONFIGURATION FOR FILE UPLOADS ---
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // This saves the files in the 'public/images' directory
+        cb(null, 'public/images');
+    },
+    filename: (req, file, cb) => {
+        // Use the original filename
+        cb(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+// --- END OF MULTER CONFIGURATION ---
+
+
+
 
 // Create an Express application
 const app = express();
@@ -58,6 +78,21 @@ app.get("/api/straps", (req, res) => {
         });
     });
 });
+
+// --- ADD THIS NEW ENDPOINT FOR UPLOADS ---
+// This endpoint will handle the image upload from the drag-and-drop
+app.post('/api/upload', upload.single('strapImage'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+    // Send back the filename so the front-end knows it was successful
+    res.json({ 
+        message: 'File uploaded successfully', 
+        filename: req.file.filename 
+    });
+});
+
+
 
 
 // GET endpoint to fetch all strap data for a specific brand

@@ -1,26 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin - Manage Straps</title>
     <style>
-        body { font-family: sans-serif; background: #222; color: #eee; max-width: 600px; margin: 2rem auto; }
-        form { display: flex; flex-direction: column; gap: 10px; padding: 1rem; background: #333; border-radius: 8px; }
-        input, select { padding: 8px; }
-        button { padding: 10px; cursor: pointer; }
-        #strap-list div { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #444; }
-        .delete-btn { color: #ff8a8a; cursor: pointer; border: none; background: none; }
+        body {
+            font-family: sans-serif;
+            background: #222;
+            color: #eee;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 1rem;
+            background: #333;
+            border-radius: 8px;
+        }
+
+        input,
+        select {
+            padding: 8px;
+        }
+
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        #strap-list div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #444;
+        }
+
+        .delete-btn {
+            color: #ff8a8a;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        #drop-zone {
+            border: 2px dashed #666;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            color: #ccc;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        #drop-zone.drag-over {
+            background-color: #444;
+            border-color: #888;
+        }
     </style>
 </head>
+
 <body>
     <h1>Manage Straps</h1>
-    
+
     <form id="add-strap-form">
         <h3>Add New Strap</h3>
         <input type="text" id="name" placeholder="Strap Name" required>
         <input type="text" id="description" placeholder="Description">
         <input type="text" id="material" placeholder="Material">
-        <input type="number" id="price" placeholder="Price (e.g., 250.00)" step="0.01">
+        <input type="number" id="price" placeholder="Price (e.g., 250.00)" step="50">
+        <input type="text" id="color" placeholder="Color">
+        <div id="drop-zone">
+            <p>Drag & Drop Image Here</p>
+            <input id="file-input" type="file" hidden>
+        </div>
         <select id="brand_id" required>
             <option value="">-- Select Brand --</option>
             <option value="1">Rolex</option>
@@ -32,7 +89,7 @@
 
     <h3 style="margin-top: 2rem;">Existing Straps</h3>
     <div id="strap-list">
-        </div>
+    </div>
 
     <script>
         const API_URL = 'http://localhost:3001/api/straps';
@@ -65,6 +122,7 @@
                 name: document.getElementById('name').value,
                 description: document.getElementById('description').value,
                 material: document.getElementById('material').value,
+                color: document.getElementById('color').value,
                 price: parseFloat(document.getElementById('price').value),
                 brand_id: parseInt(document.getElementById('brand_id').value),
             };
@@ -78,6 +136,44 @@
             addStrapForm.reset();
             fetchAndDisplayStraps(); // Refresh the list
         });
+        //drop logic
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+
+
+        // Add highlight class when dragging over
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault(); // This is necessary to allow a drop
+            dropZone.classList.add('drag-over');
+        });
+
+        // Remove highlight class when dragging away
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        // Prevent file from opening in the browser when dropped
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+
+            if (e.dataTransfer.files.length > 0) {
+                selectedFile = e.dataTransfer.files[0];
+                dropZone.querySelector('p').textContent = `File dropped: ${selectedFile.name}`;
+            }
+        });
+        
+
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                selectedFile = fileInput.files[0];
+                dropZone.querySelector('p').textContent = `File selected: ${selectedFile.name}`;
+            }
+        });
+        //drop logic end
 
         // Handle clicks to DELETE a strap (using event delegation)
         strapList.addEventListener('click', async (e) => {
@@ -92,4 +188,5 @@
         fetchAndDisplayStraps();
     </script>
 </body>
+
 </html>
