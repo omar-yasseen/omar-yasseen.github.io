@@ -111,13 +111,14 @@ app.get('/api/brands/:brandName/gallery', (req, res) => {
 // POST endpoint to create a new strap
 app.post("/api/straps", (req, res) => {
     // Get the data from the request body
-    const { name, description, material, price, color, image_url, brand_id } = req.body;
+    console.log("Received data:", req.body); // <-- ADD THIS LINE
+    const {material, price, color, image_url, brand_id } = req.body;
 
     // Basic validation: ensure required fields are present
-    if (!name || !brand_id) {
+    if (!brand_id) {
         return res
             .status(400)
-            .json({ error: "Missing required fields: name and brand_id" });
+            .json({ error: "Missing required fields:brand_id" });
     }
 
     const sql = `INSERT INTO Straps (material, price,  color, image_url, brand_id) VALUES (?, ?, ?, ?, ?)`;
@@ -125,6 +126,7 @@ app.post("/api/straps", (req, res) => {
 
     db.run(sql, params, function (err) {
         if (err) {
+            console.error("DATABASE ERROR:", err.message);
             res.status(500).json({ error: err.message });
             return;
         }
