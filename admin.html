@@ -72,11 +72,11 @@
         <input type="text" id="name" placeholder="Strap Name" required>
         <input type="text" id="description" placeholder="Description">
         <input type="text" id="material" placeholder="Material">
-        <input type="number" id="price" placeholder="Price (e.g., 250.00)" step="50">
+        <input type="number" id="price" placeholder="Price (e.g., 250.00)" step="0.01">
         <input type="text" id="color" placeholder="Color">
         <div id="drop-zone">
             <p>Drag & Drop Image Here</p>
-            <input id="file-input" type="file" hidden>
+            <input id="image_url" type="file" hidden>
         </div>
         <select id="brand_id" required>
             <option value="">-- Select Brand --</option>
@@ -95,6 +95,16 @@
         const API_URL = 'http://localhost:3001/api/straps';
         const strapList = document.getElementById('strap-list');
         const addStrapForm = document.getElementById('add-strap-form');
+
+        function getFilenameFromPath(path) {
+            if (!path) return '';
+
+            // Find the last occurrence of either a forward slash or a backslash
+            const lastSlash = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'));
+
+            // Extract the substring after the last slash
+            return path.substring(lastSlash + 1);
+        }
 
         // Function to fetch all straps and display them
         async function fetchAndDisplayStraps() {
@@ -124,6 +134,7 @@
                 material: document.getElementById('material').value,
                 color: document.getElementById('color').value,
                 price: parseFloat(document.getElementById('price').value),
+                image_url: getFilenameFromPath(document.getElementById('image_url').value),
                 brand_id: parseInt(document.getElementById('brand_id').value),
             };
 
@@ -137,7 +148,7 @@
             fetchAndDisplayStraps(); // Refresh the list
         });
         //drop logic
-        const fileInput = document.getElementById('file-input');
+        const fileInput = document.getElementById('image_url');
         const dropZone = document.getElementById('drop-zone');
 
 
@@ -162,7 +173,7 @@
                 dropZone.querySelector('p').textContent = `File dropped: ${selectedFile.name}`;
             }
         });
-        
+
 
         dropZone.addEventListener('click', () => {
             fileInput.click();
@@ -173,6 +184,7 @@
                 dropZone.querySelector('p').textContent = `File selected: ${selectedFile.name}`;
             }
         });
+
         //drop logic end
 
         // Handle clicks to DELETE a strap (using event delegation)

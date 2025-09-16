@@ -79,22 +79,6 @@ app.get("/api/straps", (req, res) => {
     });
 });
 
-// --- ADD THIS NEW ENDPOINT FOR UPLOADS ---
-// This endpoint will handle the image upload from the drag-and-drop
-app.post('/api/upload', upload.single('strapImage'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No file uploaded.');
-    }
-    // Send back the filename so the front-end knows it was successful
-    res.json({ 
-        message: 'File uploaded successfully', 
-        filename: req.file.filename 
-    });
-});
-
-
-
-
 // GET endpoint to fetch all strap data for a specific brand
 app.get('/api/brands/:brandName/gallery', (req, res) => {
     const { brandName } = req.params;
@@ -124,7 +108,7 @@ app.get('/api/brands/:brandName/gallery', (req, res) => {
 // POST endpoint to create a new strap
 app.post("/api/straps", (req, res) => {
     // Get the data from the request body
-    const { name, description, material, price, brand_id } = req.body;
+    const { name, description, material, price, color, image_url, brand_id } = req.body;
 
     // Basic validation: ensure required fields are present
     if (!name || !brand_id) {
@@ -133,8 +117,8 @@ app.post("/api/straps", (req, res) => {
             .json({ error: "Missing required fields: name and brand_id" });
     }
 
-    const sql = `INSERT INTO Straps (name, description, material, price, brand_id) VALUES (?, ?, ?, ?, ?)`;
-    const params = [name, description, material, price, brand_id];
+    const sql = `INSERT INTO Straps (name, description, material, price,  color, image_url, brand_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const params = [name, description, material, price,  color, image_url, brand_id];
 
     db.run(sql, params, function (err) {
         if (err) {
