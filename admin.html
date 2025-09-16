@@ -110,12 +110,13 @@
         async function fetchAndDisplayStraps() {
             try {
                 const response = await fetch(API_URL);
-                const result = await response.json();
+                const result = await response.json();   
                 strapList.innerHTML = ''; // Clear the list
                 result.data.forEach(strap => {
+                    console.log(strap)
                     const strapDiv = document.createElement('div');
                     strapDiv.innerHTML = `
-                        <span>${strap.name} (Brand ID: ${strap.brand_id})</span>
+                        <span>${strap.color} ${strap.material} (Brand ID: ${strap.brandName})</span>
                         <button class="delete-btn" data-id="${strap.id}">Delete</button>
                     `;
                     strapList.appendChild(strapDiv);
@@ -129,8 +130,6 @@
         addStrapForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const newStrap = {
-                name: document.getElementById('name').value,
-                description: document.getElementById('description').value,
                 material: document.getElementById('material').value,
                 color: document.getElementById('color').value,
                 price: parseFloat(document.getElementById('price').value),
@@ -147,7 +146,7 @@
             addStrapForm.reset();
             fetchAndDisplayStraps(); // Refresh the list
         });
-        //drop logic
+        //drop logic-----------------------------------
         const fileInput = document.getElementById('image_url');
         const dropZone = document.getElementById('drop-zone');
 
@@ -185,7 +184,7 @@
             }
         });
 
-        //drop logic end
+        //drop logic end------------------------------------
 
         // Handle clicks to DELETE a strap (using event delegation)
         strapList.addEventListener('click', async (e) => {

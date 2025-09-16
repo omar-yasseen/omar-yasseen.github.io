@@ -56,7 +56,6 @@ app.get("/api/straps", (req, res) => {
     const sql = `
         SELECT 
             s.id, 
-            s.name, 
             s.material, 
             s.color, 
             s.image_url, 
@@ -79,11 +78,15 @@ app.get("/api/straps", (req, res) => {
     });
 });
 
+
+
+
+
 // GET endpoint to fetch all strap data for a specific brand
 app.get('/api/brands/:brandName/gallery', (req, res) => {
     const { brandName } = req.params;
     const sql = `
-        SELECT s.material, s.name, s.color, s.price, s.image_url 
+        SELECT s.material, s.color, s.price, s.image_url 
         FROM Straps s
         JOIN Brands b ON s.brand_id = b.id
         WHERE b.name = ?
@@ -117,8 +120,8 @@ app.post("/api/straps", (req, res) => {
             .json({ error: "Missing required fields: name and brand_id" });
     }
 
-    const sql = `INSERT INTO Straps (name, description, material, price,  color, image_url, brand_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    const params = [name, description, material, price,  color, image_url, brand_id];
+    const sql = `INSERT INTO Straps (material, price,  color, image_url, brand_id) VALUES (?, ?, ?, ?, ?)`;
+    const params = [material, price,  color, image_url, brand_id];
 
     db.run(sql, params, function (err) {
         if (err) {
