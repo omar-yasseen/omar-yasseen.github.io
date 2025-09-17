@@ -29,6 +29,13 @@
         }
     </script>
     <style>
+        #summary-screen {
+            display: flex;
+            flex-direction: column;
+            min-height: 80vh;
+            /* Make the container tall */
+        }
+
         html {
             scroll-behavior: smooth;
         }
@@ -136,6 +143,26 @@
             60% {
                 transform: translateX(-50%) translateY(-5px);
             }
+        }
+
+        #video-overlay {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        #video-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #summary-screen {
+
+            margin-bottom: 1rem;
+
         }
     </style>
 </head>
@@ -267,8 +294,8 @@
 
 
                             <div class="service-btn block p-4 bg-slate-900 border-2 border-slate-700 rounded-lg cursor-pointer transition-all hover:border-amber-400"
-                                data-service="service" role="button" tabindex="0">
-                                <span class="block text-lg font-semibold text-white">Routine Full Service</span>
+                                data-service="Full Routine Service" role="button" tabindex="0">
+                                <span class="block text-lg font-semibold text-white">Full Routine Service</span>
                                 <span class="block mt-1 text-sm text-slate-400">Complete maintenence, cleaning, and
                                     regulation.</span>
                             </div>
@@ -364,12 +391,21 @@
                     </button>
                     <h1 class="text-3xl font-bold">Service Summary</h1>
                 </header>
+                <div id="summary-details"></div>
+                <ul id="service-checklist" class="space-y-2 text-slate-400">
+                </ul>
+                <div id="open-video-btn"></div>
 
-                <div class="bg-slate-900 p-6 rounded-lg border border-slate-700">
+                <div id="video-overlay"
+                    class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+                    <div id="video-container" class="bg-charcoal p-4 rounded-lg relative w-11/12 max-w-2xl">
+                        <button id="close-video-btn"
+                            class="absolute -top-3 -right-3 text-white bg-red-500 rounded-full h-8 w-8 flex items-center justify-center font-bold">
+                            &times;
+                        </button>
 
-                    <div id="video-holder" class="mt-4 border-t border-slate-700 pt-4">
+                        <div id="video-embed-spot"></div>
                     </div>
-
                 </div>
 
             </section>
@@ -398,8 +434,14 @@
 
         // --- NEW SUMMARY SCREEN LOGIC ---
         const summaryScreen = document.getElementById('summary-screen');
+        const summaryDetails = document.getElementById('summary-details');
         const backBtnSummary = document.getElementById('back-btn-summary');
 
+        //video modal button
+        const openVideoBtn = document.getElementById('open-video-btn');
+        const closeVideoBtn = document.getElementById('close-video-btn');
+        const videoOverlay = document.getElementById('video-overlay');
+        const videoEmbedSpot = document.getElementById('video-embed-spot');
 
         // This object holds the Instagram embed codes for each brand.
         const brandVideos = {
@@ -409,10 +451,18 @@
             'Default': '<blockquote class="instagram-media" ...> ... </blockquote>'
             // Paste each brand's full embed code here
         };
+        // The list of services to display
+        const serviceSteps = [
+            "Initial Diagnosis and Assessment",
+            "Complete Disassembly",
+            "Ultrasonic Cleaning and Component Inspection",
+            "Reassembly and Lubrication",
+            "Timing and Regulation",
+            "Final Assembly and Quality Control"
+        ];
 
-
-
-
+        // A helper function to create a precise delay
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
         // Add a click listener to every brand button
         brandButtons.forEach(button => {
@@ -435,12 +485,89 @@
             });
         });
 
+
+
+        async function runSummaryAnimation(serviceType) {
+            // 1. Get elements and clear them
+            const summaryDetails = document.getElementById('summary-details');
+            const checklist = document.getElementById('service-checklist');
+            const videobutton = document.getElementById('open-video-btn');
+
+            summaryDetails.innerHTML = '';
+            checklist.innerHTML = '';
+            videobutton.innerHTML = '';
+
+
+            // 2. Define the content
+            const line1HTML = `<span class="font-semibold text-slate-300">You have a </span> <span class="text-gold">${selectedBrand}</span><span class="font-semibold text-slate-300">.</span>`;
+            const line2HTML = `<span class="font-semibold text-slate-300">That needs a </span> <span class="text-gold">${serviceType.charAt(0).toUpperCase() + serviceType.slice(1)}</span><span class="font-semibold text-slate-300"> done.</span>`;
+            const line3HTML = `<span class="font-semibold text-slate-300">Which includes:</span>`;
+            const line4HTML = `<button id="open-video-btn"
+                    class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg w-full hover:bg-blue-600 transition-colors">
+                    ▶️ Watch a Service Result Example
+            </button>`;
+            const serviceSteps = [
+                "Initial Diagnosis and Assessment", "Ultrasonic Cleaning and Component Inspection",
+                "Lubrication", "Timing and Regulation", "Final Assembly and Quality Control"
+            ];
+
+            // --- Animation Sequence ---
+
+            // Animate Line 1
+            const p1 = document.createElement('p');
+            p1.className = 'text-lg fade-in';
+            p1.innerHTML = line1HTML;
+            summaryDetails.appendChild(p1);
+            await sleep(50); // Wait for browser to render
+            p1.style.opacity = 1;
+            await sleep(1000); // Wait for fade-in to finish
+
+            // Animate Line 2
+            const p2 = document.createElement('p');
+            p2.className = 'text-lg mt-2 fade-in';
+            p2.innerHTML = line2HTML;
+            summaryDetails.appendChild(p2);
+            await sleep(50); // Wait for browser to render
+            p2.style.opacity = 1;
+            await sleep(1000); // Wait for fade-in to finish
+
+            // Animate Line 3
+            const p3 = document.createElement('p');
+            p3.className = 'text-lg mt-2 fade-in';
+            p3.innerHTML = line3HTML;
+            summaryDetails.appendChild(p3);
+            await sleep(50); // Wait for browser to render
+            p3.style.opacity = 1;
+            await sleep(1000); // Wait for fade-in to finish
+
+
+            // Animate Checklist
+            for (const step of serviceSteps) {
+                const li = document.createElement('li');
+                li.className = 'flex items-center fade-in';
+                li.innerHTML = `<svg class="h-5 w-5 text-green-400 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>${step}</span>`;
+                checklist.appendChild(li);
+                await sleep(50); // Wait for browser to render
+                li.style.opacity = 1;
+                await sleep(600); // Wait for this item's fade-in before starting the next
+            }
+
+            // Animate Line 3
+            openVideoBtn.innerHTML = line4HTML;
+            const theButton = document.getElementById('open-video-btn');
+
+            await sleep(50); // Wait for browser to render
+            p4.style.opacity = 1;
+            await sleep(1000); // Wait for fade-in to finish
+
+        }
+
         // Add a click listener to the back button
         backButton.addEventListener('click', () => {
             // When the back button is clicked, remove the class to slide back
             screenSlider.classList.remove('slide-to-services');
         });
-        // --- Logic for direct service buttons ---
+        // --------- Logic for direct service buttons -----------
         const serviceButtons = document.querySelectorAll('.service-btn');
 
         serviceButtons.forEach(button => {
@@ -458,22 +585,17 @@
 
                     // Fetch data and build the gallery
                     initializeGallery();
-                } else if (serviceType === 'service') {
+                } else if (serviceType === 'Full Routine Service') {
                     // Hide the first two screens
                     sliderViewport.classList.add('hidden');
-
-                    // Show the new summary screen
+                    // 2. Show the summary screen
                     summaryScreen.classList.remove('hidden');
                     summaryScreen.classList.add('flex');
-                    // --- Find and display the video ---
-                    const videoHolder = document.getElementById('video-holder');
+                    runSummaryAnimation(serviceType);
 
-                    // Look up the correct video embed code for the selected brand
-                    const videoEmbed = brandVideos[selectedBrand] || brandVideos['Default'];
 
-                    // Place the video into the video holder
-                    videoHolder.innerHTML = videoEmbed;
-                    window.instgrm.Embeds.process(); // Tells Instagram to activate new videos
+
+                    //------------------- Scroll to the top to see the new screen---------------
                     // Scroll to the top to see the new screen
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
@@ -666,6 +788,43 @@
         });
 
 
+        //---------------------MODAL VIDEO BUTTON LOGIC------------------------
+        // When the "Open Video" button is clicked
+        openVideoBtn.addEventListener('click', () => {
+
+            //modal video variable
+            const videoToPlay = brandVideos[selectedBrand];
+            // 1. Place the video embed code into the container
+            videoEmbedSpot.innerHTML = videoToPlay;
+
+            // 2. Manually tell Instagram's script to activate the new video
+            window.instgrm.Embeds.process();
+
+            // 3. Show the overlay
+            videoOverlay.classList.remove('hidden');
+        });
+
+        // A function to close the overlay
+        const closeOverlay = () => {
+            // 1. Hide the overlay
+            videoOverlay.classList.add('hidden');
+
+            // 2. IMPORTANT: Remove the video embed code to stop it from playing in the background
+            videoEmbedSpot.innerHTML = '';
+        };
+
+        // When the "Close" button is clicked
+        closeVideoBtn.addEventListener('click', closeOverlay);
+
+        // Also close the overlay if the user clicks on the dark background
+        videoOverlay.addEventListener('click', (e) => {
+            if (e.target === videoOverlay) { // Only closes if the click is on the background itself
+                closeOverlay();
+            }
+        });
+
+
+        //----------------summary back button---------------
         // Add functionality to the new screen's back button
         backBtnSummary.addEventListener('click', () => {
             // Hide the summary screen
@@ -679,9 +838,7 @@
             window.scrollTo({ top: scrollTopPixels, behavior: 'smooth' });
         });
 
-        // Delete the old, now unused event listeners
-        // You can remove the 'materialContainer.addEventListener' and 'strapBackBtn.addEventListener'
-        // from your old code if you haven't already.
+
     </script>
 </body>
 
