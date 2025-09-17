@@ -380,7 +380,7 @@
 
 
             <section id="summary-screen" class="hidden w-full max-w-md px-2 flex-col">
-
+                <div id="summary-header" class="hidden w-full max-w-md px-2 flex-col">
                 <header class="text-center my-8 relative">
                     <button id="back-btn-summary"
                         class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
@@ -391,6 +391,7 @@
                     </button>
                     <h1 class="text-3xl font-bold">Service Summary</h1>
                 </header>
+                </div>
                 <div id="summary-details"></div>
                 <ul id="service-checklist" class="space-y-2 text-slate-400">
                 </ul>
@@ -433,6 +434,7 @@
         let allStrapsData = []; // To cache all strap data from the database
 
         // --- NEW SUMMARY SCREEN LOGIC ---
+        const summaryHeader = document.getElementById('summary-header');
         const summaryScreen = document.getElementById('summary-screen');
         const summaryDetails = document.getElementById('summary-details');
         const backBtnSummary = document.getElementById('back-btn-summary');
@@ -557,9 +559,8 @@
             const theButton = document.getElementById('open-video-btn');
 
             await sleep(50); // Wait for browser to render
-            p4.style.opacity = 1;
+            theButton.style.opacity = 1;
             await sleep(1000); // Wait for fade-in to finish
-
         }
 
         // Add a click listener to the back button
@@ -589,6 +590,7 @@
                     // Hide the first two screens
                     sliderViewport.classList.add('hidden');
                     // 2. Show the summary screen
+                    summaryHeader.classList.remove('hidden');
                     summaryScreen.classList.remove('hidden');
                     summaryScreen.classList.add('flex');
                     runSummaryAnimation(serviceType);
@@ -833,6 +835,16 @@
 
             // Show the service selection screen again
             sliderViewport.classList.remove('hidden');
+
+            // Clear the dynamic content to reset the screen for next time
+            document.getElementById('summary-details').innerHTML = '';
+            document.getElementById('service-checklist').innerHTML = '';
+            document.getElementById('open-video-btn').innerHTML = '';
+
+            // IMPORTANT: Clear EVERYTHING inside the summary screen for a full reset
+            setTimeout(() => {
+                summaryScreen.innerHTML = '';
+            }, 500); // Delay clearing to prevent a visual glitch during transition
 
             // Scroll back down to the services section
             window.scrollTo({ top: scrollTopPixels, behavior: 'smooth' });
