@@ -164,6 +164,16 @@
             margin-bottom: 1rem;
 
         }
+
+        #summary-screen {
+            display: none;
+            /* This completely hides it by default */
+        }
+
+        #summary-screen.active {
+            display: flex;
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -380,7 +390,6 @@
 
 
             <section id="summary-screen" class="hidden w-full max-w-md px-2 flex-col">
-                <div id="summary-header" class="hidden w-full max-w-md px-2 flex-col">
                 <header class="text-center my-8 relative">
                     <button id="back-btn-summary"
                         class="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
@@ -391,7 +400,7 @@
                     </button>
                     <h1 class="text-3xl font-bold">Service Summary</h1>
                 </header>
-                </div>
+
                 <div id="summary-details"></div>
                 <ul id="service-checklist" class="space-y-2 text-slate-400">
                 </ul>
@@ -590,7 +599,7 @@
                     // Hide the first two screens
                     sliderViewport.classList.add('hidden');
                     // 2. Show the summary screen
-                    summaryHeader.classList.remove('hidden');
+                    summaryScreen.classList.add('active'); // Shows the screen
                     summaryScreen.classList.remove('hidden');
                     summaryScreen.classList.add('flex');
                     runSummaryAnimation(serviceType);
@@ -830,8 +839,7 @@
         // Add functionality to the new screen's back button
         backBtnSummary.addEventListener('click', () => {
             // Hide the summary screen
-            summaryScreen.classList.add('hidden');
-            summaryScreen.classList.remove('flex');
+            summaryScreen.classList.remove('active'); // Hides the screen
 
             // Show the service selection screen again
             sliderViewport.classList.remove('hidden');
@@ -842,9 +850,6 @@
             document.getElementById('open-video-btn').innerHTML = '';
 
             // IMPORTANT: Clear EVERYTHING inside the summary screen for a full reset
-            setTimeout(() => {
-                summaryScreen.innerHTML = '';
-            }, 500); // Delay clearing to prevent a visual glitch during transition
 
             // Scroll back down to the services section
             window.scrollTo({ top: scrollTopPixels, behavior: 'smooth' });
