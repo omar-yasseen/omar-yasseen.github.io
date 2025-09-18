@@ -824,17 +824,19 @@
 
         //---------------------MODAL VIDEO BUTTON LOGIC------------------------
         // When the "Open Video" button is clicked
-        openVideoBtn.addEventListener('click', () => {
-            //modal video variable
-            const videoToPlay = brandVideos[selectedBrand];
-            // 1. Place the video embed code into the container
-            videoEmbedSpot.innerHTML = videoToPlay;
+        openVideoBtn.addEventListener('click', (event) => {
+            // This 'if' statement is the crucial part.
+            // It checks if the click came from the button with the ID 'open-video-btn-actual'
+            if (event.target.closest('#open-video-btn-actual')) {
+                const videoToPlay = brandVideos[selectedBrand];
+                videoEmbedSpot.innerHTML = videoToPlay;
 
-            // 2. Manually tell Instagram's script to activate the new video
-            window.instgrm.Embeds.process();
+                if (window.instgrm) {
+                    window.instgrm.Embeds.process();
+                }
 
-            // 3. Show the overlay
-            videoOverlay.classList.remove('hidden');
+                videoOverlay.classList.remove('hidden');
+            }
         });
 
         // A function to close the overlay
