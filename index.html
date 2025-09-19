@@ -476,6 +476,46 @@
             "Final Assembly and Quality Control"
         ];
 
+        // Add this new content object at the top of your <script>
+        const serviceContent = {
+            'Full Routine Service': {
+                description: 'a <strong>Full Routine Service</strong>',
+                checklistTitle: 'Which includes the following steps:',
+                steps: [
+                    "Initial Diagnosis and Assessment",
+                    "Complete Disassembly & Ultrasonic Cleaning",
+                    "Reassembly and Precise Lubrication",
+                    "Timing and Accuracy Regulation",
+                    "Water Resistance Testing and Sealing",
+                    "Final Quality Control and Inspection"
+                ]
+            },
+            'repair': { // This key matches the data-service="repair" on your button
+                description: 'a <strong>Non-Working Movement Repair</strong>',
+                checklistTitle: 'Our diagnostic and repair process involves:',
+                steps: [
+                    "Comprehensive Movement Diagnostics",
+                    "Identification of Worn or Damaged Parts",
+                    "Sourcing of Genuine Replacement Components",
+                    "Expert Reassembly and Calibration",
+                    "Rigorous Power Reserve & Accuracy Testing"
+                ]
+            },
+            'rust': { // This key matches the data-service="rust"
+                description: 'a <strong>Rusted Timepiece Restoration</strong>',
+                checklistTitle: 'The restoration journey includes:',
+                steps: [
+                    "Careful Disassembly of Affected Components",
+                    "Specialized Chemical and Mechanical Rust Removal",
+                    "Component Polishing and Refinishing",
+                    "Protective Treatment Application",
+                    "Meticulous Reassembly and Gasket Replacement"
+                ]
+            }
+            // You can add more services here, like 'polish', 'waterproof', etc.
+        };
+
+
         // A helper function to create a precise delay
         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -514,7 +554,7 @@
 
             // --- ADD THIS NEW CODE BLOCK ---
             // 1. Create the pre-filled message using the selected brand and service
-            const message = `I would like to request a ${serviceType}\nfor my ${selectedBrand} watch.\n\nMy name is: `;
+            const message = `I would like to request a ${serviceType}\nfor my ${selectedBrand} watch.`;
 
             // 2. URL-encode the message to make it safe for a link
             const encodedMessage = encodeURIComponent(message);
@@ -530,11 +570,11 @@
             const line4HTML = `
     <div class="flex items-center gap-4 mt-8 w-full">
         <button id="open-video-btn-actual" class="bg-blue-500 text-white font-bold py-3 px-4 rounded-lg w-1/2 hover:bg-blue-600 transition-colors text-sm text-center">
-            ▶️ Example
+            ▶️ Video Example
         </button>
         <a href="${whatsappUrl}" target="_blank" class="bg-green-800 text-white font-bold py-3 px-4 rounded-lg w-1/2 hover:bg-green-600 transition-colors text-sm flex items-center justify-center gap-2">
     <img src="./img/whatsapp_icon.png" alt="WhatsApp Icon" class="h-5 w-5">
-    <span>Request</span>
+    <span>Request Service</span>
 </a>
     </div>
 `;
