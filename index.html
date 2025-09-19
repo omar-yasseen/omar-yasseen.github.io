@@ -468,30 +468,32 @@
         };
         // The list of services to display
         const serviceSteps = [
-            "Initial Diagnosis and Assessment",
-            "Complete Disassembly",
-            "Ultrasonic Cleaning and Component Inspection",
-            "Reassembly and Lubrication",
-            "Timing and Regulation",
+            "Initial Diagnosis & Assessment",
+            "Complete Disassembly & Ultrasonic Cleaning",
+            "Careful Component Inspection",
+            "Precise Lubrication",
+            "Timing and Accuracy Regulation",
+            "Water Resistance Testing & Sealing",
             "Final Assembly and Quality Control"
         ];
 
         // Add this new content object at the top of your <script>
         const serviceContent = {
             'Full Routine Service': {
-                description: 'a <strong>Full Routine Service</strong>',
+                description: 'a Full Routine Service',
                 checklistTitle: 'Which includes the following steps:',
                 steps: [
-                    "Initial Diagnosis and Assessment",
+                    "Initial Diagnosis & Assessment",
                     "Complete Disassembly & Ultrasonic Cleaning",
-                    "Reassembly and Precise Lubrication",
+                    "Careful Component Inspection",
+                    "Precise Controlled Lubrication",
                     "Timing and Accuracy Regulation",
-                    "Water Resistance Testing and Sealing",
-                    "Final Quality Control and Inspection"
+                    "Water Resistance Testing & Sealing",
+                    "Final Assembly and Quality Control"
                 ]
             },
             'repair': { // This key matches the data-service="repair" on your button
-                description: 'a <strong>Non-Working Movement Repair</strong>',
+                description: 'a Non-Working Movement Repair',
                 checklistTitle: 'Our diagnostic and repair process involves:',
                 steps: [
                     "Comprehensive Movement Diagnostics",
@@ -502,7 +504,7 @@
                 ]
             },
             'rust': { // This key matches the data-service="rust"
-                description: 'a <strong>Rusted Timepiece Restoration</strong>',
+                description: 'a Rusted Timepiece Restoration',
                 checklistTitle: 'The restoration journey includes:',
                 steps: [
                     "Careful Disassembly of Affected Components",
@@ -510,6 +512,19 @@
                     "Component Polishing and Refinishing",
                     "Protective Treatment Application",
                     "Meticulous Reassembly and Gasket Replacement"
+                ]
+            },
+            // Inside your serviceContent object, add a comma after the 'rust' entry and then add this new block:
+
+            'polish': { // Key matches data-service="polish"
+                description: 'a Case & Bracelet Polish',
+                checklistTitle: 'Our professional polishing service includes:',
+                steps: [
+                    "Initial Surface Decontamination and Cleaning",
+                    "Masking of Brushed and Sensitive Areas",
+                    "Multi-Stage Lapping for Mirror Finishes",
+                    "Precise Grain Re-application for Brushed Finishes",
+                    "Final Ultrasonic Cleaning to Remove Residue"
                 ]
             }
             // You can add more services here, like 'polish', 'waterproof', etc.
@@ -540,9 +555,100 @@
             });
         });
 
-
-
         async function runSummaryAnimation(serviceType) {
+            // 1. Create the pre-filled message using the selected brand and service
+            const message = `I would like to request a ${serviceContent[serviceType].description}\nfor my ${selectedBrand} watch.`;
+
+            // 2. URL-encode the message to make it safe for a link
+            const encodedMessage = encodeURIComponent(message);
+
+            // 3. Build the final WhatsApp URL
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+            // 1. Get the custom content for the selected service
+            const content = serviceContent[serviceType];
+
+            // Safety check: if no content is defined for this service, do nothing.
+            if (!content) {
+                console.error("No summary content defined for service:", serviceType);
+                // Fallback to a simple alert
+                alert(`Service request for "${serviceType}" submitted for ${selectedBrand}!`);
+                return;
+            }
+
+            // 2. Get elements and clear them
+            const summaryDetails = document.getElementById('summary-details');
+            const checklist = document.getElementById('service-checklist');
+            const actionButtonsContainer = document.getElementById('open-video-btn'); // This is the container for your buttons
+
+            summaryDetails.innerHTML = '';
+            checklist.innerHTML = '';
+            actionButtonsContainer.innerHTML = '';
+
+            // 3. Define the content using the dynamic object
+            const line1HTML = `<span class="font-semibold text-slate-300">You have a </span> <span class="text-gold"><strong>${selectedBrand}</strong></span><span class="font-semibold text-slate-300">.</span>`;
+            const line2HTML = `<span class="font-semibold text-slate-300">It needs </span> <span class="text-gold"><strong>${content.description}</strong></span> done.</span>`;
+            const line3HTML = `<span class="font-semibold text-slate-300">${content.checklistTitle}</span>`;
+            const serviceSteps = content.steps; // Use the steps from our object
+            const buttonsHTML = `
+    <div class="flex items-center gap-4 mt-8 w-full">
+        <button id="open-video-btn-actual" class="bg-blue-500 text-white font-bold py-3 px-4 rounded-lg w-1/2 hover:bg-blue-600 transition-colors text-sm text-center">
+            ▶️ Video Example
+        </button>
+        <a href="${whatsappUrl}" target="_blank" class="bg-green-800 text-white font-bold py-3 px-4 rounded-lg w-1/2 hover:bg-green-600 transition-colors text-sm flex items-center justify-center gap-2">
+    <img src="./img/whatsapp_icon.png" alt="WhatsApp Icon" class="h-5 w-5">
+    <span>Request Service</span>
+</a>
+    </div>
+`;
+            // --- Animation Sequence (This part remains mostly the same) ---
+            // Animate Line 1
+            const p1 = document.createElement('p');
+            p1.className = 'text-lg fade-in';
+            p1.innerHTML = line1HTML;
+            summaryDetails.appendChild(p1);
+            await sleep(50);
+            p1.style.opacity = 1;
+            await sleep(1000);
+
+            // Animate Line 2
+            const p2 = document.createElement('p');
+            p2.className = 'text-lg mt-2 fade-in';
+            p2.innerHTML = line2HTML;
+            summaryDetails.appendChild(p2);
+            await sleep(50);
+            p2.style.opacity = 1;
+            await sleep(1000);
+
+            // Animate Line 3
+            const p3 = document.createElement('p');
+            p3.className = 'text-lg mt-2 fade-in';
+            p3.innerHTML = line3HTML;
+            summaryDetails.appendChild(p3);
+            await sleep(50);
+            p3.style.opacity = 1;
+            await sleep(1000);
+
+            // Animate Checklist
+            for (const step of serviceSteps) {
+                const li = document.createElement('li');
+                li.className = 'flex items-center fade-in';
+                li.innerHTML = `<svg class="h-5 w-5 text-green-400 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>${step}</span>`;
+                checklist.appendChild(li);
+                await sleep(50);
+                li.style.opacity = 1;
+                await sleep(600);
+            }
+
+            // Animate the buttons in
+            actionButtonsContainer.innerHTML = buttonsHTML; // Assuming you have your buttonsHTML defined
+            actionButtonsContainer.className = 'fade-in';
+            await sleep(50);
+            actionButtonsContainer.style.opacity = 1;
+            await sleep(1000);
+        }
+
+        /**async function runSummaryAnimation(serviceType) {
             // 1. Get elements and clear them
             const summaryDetails = document.getElementById('summary-details');
             const checklist = document.getElementById('service-checklist');
@@ -633,7 +739,7 @@
             await sleep(1000); // Wait for fade-in to finish
 
 
-        }
+        }**/
 
         // Add a click listener to the back button
         backButton.addEventListener('click', () => {
@@ -646,7 +752,7 @@
         serviceButtons.forEach(button => {
             button.addEventListener('click', async () => {
                 const serviceType = button.dataset.service;
-
+                const summaryServices = ['Full Routine Service', 'repair', 'rust', 'polish']; // Add any service that should have a summary screen to this list
                 if (serviceType === 'strapchange') {
                     // Hide the main services slider and show the gallery screen
                     sliderViewport.classList.add('hidden');
@@ -658,16 +764,15 @@
 
                     // Fetch data and build the gallery
                     initializeGallery();
-                } else if (serviceType === 'Full Routine Service') {
-                    // Hide the first two screens
+                } else if (summaryServices.includes(serviceType)) { // Is the service on the list?
+                    // If YES, run the summary logic (only written once!)
+                    // Hide the first two screens  
                     sliderViewport.classList.add('hidden');
                     // 2. Show the summary screen
                     summaryScreen.classList.add('active'); // Shows the screen
                     summaryScreen.classList.remove('hidden');
                     summaryScreen.classList.add('flex');
                     runSummaryAnimation(serviceType);
-
-
 
                     //------------------- Scroll to the top to see the new screen---------------
                     // Scroll to the top to see the new screen
