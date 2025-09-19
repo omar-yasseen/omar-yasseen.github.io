@@ -648,7 +648,6 @@
             await sleep(1000);
         }
 
-
         // Add a click listener to the back button
         backButton.addEventListener('click', () => {
             // When the back button is clicked, remove the class to slide back
@@ -680,17 +679,11 @@
                     summaryScreen.classList.add('active'); // Shows the screen
                     summaryScreen.classList.remove('hidden');
                     summaryScreen.classList.add('flex');
-                    setTimeout(() => {
-                        window.scrollTo({
-                            top: scrollTopPixels,
-                            behavior: 'smooth'
-                        });
-                    }, 200); // The delay in milliseconds
                     runSummaryAnimation(serviceType);
 
                     //------------------- Scroll to the top to see the new screen---------------
                     // Scroll to the top to see the new screen
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({ top: scrollTopPixels, behavior: 'smooth' });
                 } else {
                     // Keep the alert for all other service buttons
                     alert(`Service request for "${serviceType}" submitted for ${selectedBrand}!`);
