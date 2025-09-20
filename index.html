@@ -678,6 +678,7 @@
                     summaryScreen.classList.add('active'); // Shows the screen
                     summaryScreen.classList.remove('hidden');
                     summaryScreen.classList.add('flex');
+                    document.getElementById('scroll-indicator').classList.add('hidden');
                     setTimeout(() => {
                         window.scrollTo({ top: 150, behavior: 'smooth' });
                     }, 0);
@@ -928,7 +929,7 @@
 
             // Show the service selection screen again
             sliderViewport.classList.remove('hidden');
-
+            document.getElementById('scroll-indicator').classList.remove('hidden');
             // Clear the dynamic content to reset the screen for next time
             document.getElementById('summary-details').innerHTML = '';
             document.getElementById('service-checklist').innerHTML = '';
