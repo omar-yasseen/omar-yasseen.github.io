@@ -678,6 +678,10 @@
                     summaryScreen.classList.add('active'); // Shows the screen
                     summaryScreen.classList.remove('hidden');
                     summaryScreen.classList.add('flex');
+                    setTimeout(() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 0);
+                    
                     runSummaryAnimation(serviceType);
 
                     //------------------- Scroll to the top to see the new screen---------------
