@@ -425,6 +425,8 @@
     <script>
         //restores scrollpoistion without caching interfering
         history.scrollRestoration = 'manual';
+        //tracks the state of lines being printed wether to wait or not
+        let currentAnimationId = 0;
         // Select the elements we need to interact with
         const screenSlider = document.getElementById('screen-slider');
         const brandButtons = document.querySelectorAll('[data-action="select-brand"]');
@@ -510,7 +512,7 @@
                 description: 'a Case & Bracelet Polish',
                 checklistTitle: 'Our professional polishing service includes:',
                 steps: [
-                    "Initial Surface Cleaning",,
+                    "Initial Surface Cleaning",
                     "Multi-Stage Lapping for Mirror Finishes",
                     "Precise Grain Re-application for Brushed Finishes",
                     "Final Ultrasonic Cleaning to Remove Residue"
@@ -545,6 +547,8 @@
         });
 
         async function runSummaryAnimation(serviceType) {
+            // Give this animation run a unique ID
+            const thisAnimationId = ++currentAnimationId;
             // 1. Create the pre-filled message using the selected brand and service
             const message = `I would like to request a ${serviceContent[serviceType].description}\nfor my ${selectedBrand} watch.`;
 
@@ -599,6 +603,8 @@
             await sleep(50);
             p1.style.opacity = 1;
             await sleep(1000);
+            //Check if we should continue
+            if (thisAnimationId !== currentAnimationId) return;
 
             // Animate Line 2
             const p2 = document.createElement('p');
@@ -608,6 +614,8 @@
             await sleep(50);
             p2.style.opacity = 1;
             await sleep(1000);
+            //Check if we should continue
+            if (thisAnimationId !== currentAnimationId) return;
 
             // Animate Line 3
             const p3 = document.createElement('p');
@@ -617,9 +625,13 @@
             await sleep(50);
             p3.style.opacity = 1;
             await sleep(1000);
+            //Check if we should continue
+            if (thisAnimationId !== currentAnimationId) return;
 
             // Animate Checklist
             for (const step of serviceSteps) {
+                //Check if we should continue
+                if (thisAnimationId !== currentAnimationId) return;
                 const li = document.createElement('li');
                 li.className = 'flex items-center fade-in';
                 li.innerHTML = `<svg class="h-5 w-5 text-green-400 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>${step}</span>`;
@@ -628,7 +640,8 @@
                 li.style.opacity = 1;
                 await sleep(600);
             }
-
+            //Check if we should continue
+            if (thisAnimationId !== currentAnimationId) return;
             // Animate the buttons in
             actionButtonsContainer.innerHTML = buttonsHTML; // Assuming you have your buttonsHTML defined
             actionButtonsContainer.className = 'fade-in';
