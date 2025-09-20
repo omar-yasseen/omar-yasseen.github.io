@@ -599,7 +599,7 @@
             summaryDetails.appendChild(p1);
             await sleep(50);
             p1.style.opacity = 1;
-            await sleep(1000);
+            await sleep(500);
             //Check if we should continue
             if (thisAnimationId !== currentAnimationId) return;
 
@@ -610,7 +610,7 @@
             summaryDetails.appendChild(p2);
             await sleep(50);
             p2.style.opacity = 1;
-            await sleep(1000);
+            await sleep(500);
             //Check if we should continue
             if (thisAnimationId !== currentAnimationId) return;
 
@@ -621,7 +621,7 @@
             summaryDetails.appendChild(p3);
             await sleep(50);
             p3.style.opacity = 1;
-            await sleep(1000);
+            await sleep(500);
             //Check if we should continue
             if (thisAnimationId !== currentAnimationId) return;
 
@@ -635,7 +635,7 @@
                 checklist.appendChild(li);
                 await sleep(50);
                 li.style.opacity = 1;
-                await sleep(600);
+                await sleep(500);
             }
             //Check if we should continue
             if (thisAnimationId !== currentAnimationId) return;
@@ -884,7 +884,7 @@
             <video 
                 controls 
                 autoplay 
-                muted 
+                unmuted 
                 playsinline 
                 preload="metadata" 
                 src="${videoToPlay}" 
